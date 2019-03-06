@@ -9,12 +9,10 @@ import br.com.hjsytems.hjchamados.entity.UnidadesEmpresariais;
 import br.com.hjsytems.hjchamados.entity.Usuarios;
 import br.com.hjsytems.hjchamados.repository.UnidadesEmpresariaisRepository;
 import br.com.hjsytems.hjchamados.repository.UsuarioRepository;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.bind.BindResult;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -53,8 +51,8 @@ public class UsuariosController {
             nomePsq = nome.get();
         }
 
-        List<Usuarios> ls = new ArrayList<>();
-        ls = usuarios.findByNomeContaining(nomePsq);
+        List<Usuarios> ls = usuarios.findByNomeContaining(nomePsq);
+        //ls = usuarios.findByNomeContaining(nomePsq);
 
         mv.addObject("listaUsuario", ls);
 
@@ -89,4 +87,5 @@ public class UsuariosController {
         }
         return new ResponseEntity<>("", HttpStatus.OK);
     }
+
 }

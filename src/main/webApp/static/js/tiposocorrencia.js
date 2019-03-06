@@ -16,18 +16,17 @@ $(document).ready(function () {
         $('#modal-tiposOcorrencia').modal('show');
         $.get('tpoc/novo', function (dados) {
             $('#conteudo-modal').html(dados);
-            int_botoes_tiposocorrencia();
         });
     });
-
+    int_botoes_tiposocorrencia();
 });
 
 function alteraTiposOcorrencia(id) {
     $('#modal-tiposOcorrencia').modal('show');
     $.get('tpoc/alterar/' + id, function (dados) {
         $('#conteudo-modal').html(dados);
-        int_botoes_tiposocorrencia();
     });
+    int_botoes_tiposocorrencia();
 }
 
 var int_botoes_tiposocorrencia = function () {

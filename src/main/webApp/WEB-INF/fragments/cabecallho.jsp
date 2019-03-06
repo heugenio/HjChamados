@@ -22,7 +22,8 @@
         <!-- Bootstrap -->
         <link href="${path}/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
         <link href="${path}/static/css/style.css" rel="stylesheet" type="text/css"/>   
-        <link href="${path}/static/css/menu.css" rel="stylesheet" type="text/css"/>           
+        <link href="${path}/static/css/menu.css" rel="stylesheet" type="text/css"/>
+        <link href="${path}/static/css/radio_cpf_cnpj.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
         <div class="">
@@ -52,7 +53,7 @@
                                         <li class="dropdown-header">Cadastros</li>
                                         <li><a href="${path}/user">Usuarios</a></li>
                                         <li><a href="${path}/tpoc">Tipos Ocorrência</a></li>
-                                        <li><a href="${path}/frnc">Fornecedores</a></li>
+                                        <li><a href="${path}/fornecedor">Fornecedores</a></li>
                                     </ul>
                                 </li>
                             </ul>	

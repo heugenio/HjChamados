@@ -15,18 +15,18 @@ $(document).ready(function () {
         $('#modal-user').modal('show');
         $.get('user/novo', function (dados) {
             $('#conteudo-modal').html(dados);
-            int_botoes_usuarios();
         });
     });
 
+    int_botoes_usuarios();
 });
 
 function alteraUser(id) {
     $('#modal-user').modal('show');
     $.get('user/alterar/' + id, function (dados) {
         $('#conteudo-modal').html(dados);
-        int_botoes_usuarios();
     });
+    int_botoes_usuarios();
 }
 
 var int_botoes_usuarios = function () {

@@ -23,5 +23,8 @@
 
         <script src="${path}/static/vendor/jquery/jquery-3.1.1.min.js"></script>
         <script src="${path}/static/vendor/bootstrap/js/bootstrap.min.js"></script>
+        <script src="${path}/static/vendor/jquery_mask/jquery.mask.min.js" type="text/javascript"></script>
+        <script src="${path}/static/vendor/jquery_mask/jquery.mask.js" type="text/javascript"></script>
+        
     </body>
 </html>
