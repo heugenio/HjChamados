@@ -12,6 +12,8 @@ public final class PathPadrao {
     
     public static final String NOVO = "/novo";
     public static final String SALVAR = "/salvar";
+    public static final String LISTAR = "/lista";
+    public static final String ALTERAR = "/alterar/";
 
 }
 

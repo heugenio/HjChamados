@@ -13,7 +13,8 @@
 
 
 
-
+<html>
+    <body>
       <!-- Inserimos o rodapé -->  
         <div id="footer" style="position: fixed; bottom: 0;">
             <div class="container">
@@ -21,10 +22,10 @@
             </div>
         </div>
 
-        <script src="${path}/static/vendor/jquery/jquery-3.1.1.min.js"></script>
-        <script src="${path}/static/vendor/bootstrap/js/bootstrap.min.js"></script>
-        <script src="${path}/static/vendor/jquery_mask/jquery.mask.min.js" type="text/javascript"></script>
-        <script src="${path}/static/vendor/jquery_mask/jquery.mask.js" type="text/javascript"></script>
-        
     </body>
+    <script src="${path}/static/vendor/jquery/jquery-3.1.1.min.js"></script>
+    <script src="${path}/static/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="${path}/static/vendor/jquery_mask/jquery.mask.min.js"></script>
+    <script src="${path}/static/vendor/jquery_mask/jquery.mask.js"></script>
+    <script src="${path}/static/vendor/jquery_validator/jquery.validate.min.js" ></script>
 </html>

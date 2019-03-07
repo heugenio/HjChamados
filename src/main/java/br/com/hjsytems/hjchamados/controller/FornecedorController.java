@@ -36,7 +36,7 @@ public class FornecedorController {
     //@Autowired Fornecedor oEFornecedor;
     
     @GetMapping
-    public ModelAndView Abrir() {
+    public ModelAndView abrir() {
         return new ModelAndView("fornecedor/manutencao");
     }
     
@@ -55,9 +55,16 @@ public class FornecedorController {
         }
     }
     
-    @GetMapping(value = {"/lista", "/lista/{nome}"})
+    @GetMapping(value = {PathPadrao.LISTAR, "/lista/{nome}"})
     public ModelAndView listaUsuario(@PathVariable Optional<String> nome) {
-        return new ModelAndView("fornecedor/lista_fornecedores").addObject("listaUsuario", iFornecedorRepository.findByNomeContaining(nome.isPresent() ? nome.get():""));
+        String nomeForn = "";
+        if(nome.isPresent()) {nomeForn = nome.get();}
+        return new ModelAndView("fornecedor/lista_fornecedores").addObject("listaFornecedor", iFornecedorRepository.findByNomeContaining(nomeForn));
+    }
+    
+    @GetMapping(PathPadrao.ALTERAR+"{id}")
+    public ModelAndView alterar(@PathVariable int id) {
+        return new ModelAndView("fornecedor/form_fornecedor").addObject("fornecedor", iFornecedorRepository.getOne(id));
     }
     
 }
