@@ -1,3 +1,5 @@
+/* global TipoMsg */
+
 $(document).ready(function () {
     $('#btn-search').click(function () {
         var param = $('#input-user').val();
@@ -21,8 +23,8 @@ $(document).ready(function () {
 });
 
 //Altera a formatação do campo cpf/cnpj conforme seleção.
-function changeCampoCpfCnpj(value) {
-    if(value.toString() === "cpf") {
+function changeCampoCpfCnpj(idBtnRadio) {
+    if(idBtnRadio.toString() === "cpf") {
         $('#inputCnpjCpf').val("");
         $('#inputCnpjCpf').focus();
         $('#inputCnpjCpf').attr('placeholder','CPF');
@@ -39,18 +41,20 @@ function alteraUser(id) {
     $('#modal-fornecedor').modal('show');
     $.get('fornecedor/alterar/' + id, function (dados) {
         $('#conteudo-modal').html(dados);
-        int_botoes_usuarios();
     });
+    int_botoes_usuarios();
 }
 
 var int_botoes_usuarios = function () {
     $('#btn-salvar').click(function () {
-        var user = $("#form-cad-fornecedor").serialize();
-        $.post('fornecedor/salvar', user).done(function (retono, status, jqxhr) {
+        var fornecedor = $("#form-cad-fornecedor").serialize();
+        $.post('fornecedor/salvar', fornecedor).done(function (retono, status, jqxhr) {
             $('#modal-fornecedor').modal('hide');
-            alert('Salvo com sucesso.');
+            if(retono.toString() === "true") {
+                centralMensagem(TipoMsg.SALVAR,"Cadastro de fornecedor","Fornecedor cadastrado com sucesso!");
+            }
         }).fail(function (retono) {
-            alert('Falhou');
+            alert('Falhou ');
         });
     });
 };

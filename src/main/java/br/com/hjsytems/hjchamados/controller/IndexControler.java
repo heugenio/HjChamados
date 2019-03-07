@@ -22,7 +22,7 @@ public class IndexControler {
     public ModelAndView abrir() {
         
         ModelAndView mv = new ModelAndView("index");
-        return mv;        
+        return mv;
     }
     
 }

@@ -5,11 +5,9 @@
  */
 package br.com.hjsytems.hjchamados.controller;
 
+import br.com.hjsystems.hjchamados.util.PathPadrao;
 import br.com.hjsytems.hjchamados.entity.Fornecedor;
-import br.com.hjsytems.hjchamados.entity.UnidadesEmpresariais;
-import br.com.hjsytems.hjchamados.entity.Usuarios;
 import br.com.hjsytems.hjchamados.repository.FornecedorRepository;
-import java.util.List;
 import java.util.Optional;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,19 +40,19 @@ public class FornecedorController {
         return new ModelAndView("fornecedor/manutencao");
     }
     
-    @GetMapping("/novo")
+    @GetMapping(PathPadrao.NOVO)
     public ModelAndView novo() {
         return new ModelAndView("fornecedor/form_fornecedor").addObject("listaFornecedores", iFornecedorRepository.findAll());
     }
     
-    @PostMapping("/salvar")
+    @PostMapping(PathPadrao.SALVAR)
     public ResponseEntity<String> salvar(@Valid @ModelAttribute Fornecedor fornecedor, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return new ResponseEntity<>("", HttpStatus.BAD_REQUEST);
         } else {
             iFornecedorRepository.save(fornecedor);
+            return new ResponseEntity<>("true", HttpStatus.OK);
         }
-        return new ResponseEntity<>("", HttpStatus.OK);
     }
     
     @GetMapping(value = {"/lista", "/lista/{nome}"})
