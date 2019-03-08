@@ -9,9 +9,11 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<html>
 
+<html>
     <body>
+        
+        
     <!--    <script>
             $("#form-cad-fornecedor").validate({
             rules: {
@@ -59,13 +61,14 @@
     
         <div class="row" >
             <div class="col-xs-12 col-sm-12 col-md-12">
-                <form id="form-cad-fornecedor" class="form-horizontal">    
+                <form data-toggle="validator" role="form" id="form-cad-fornecedor" class="form-horizontal">    
+                    
                     <input type="hidden" name="id" value="${fornecedor.id}"> 
 
                     <div class="form-group">
                         <label for="inputNome" class="col-sm-2 control-label">Nome</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" name="nome" id="inputNome" placeholder="Nome" value="${fornecedor.nome}" required>
+                            <input type="text" class="form-control" name="nome" id="inputNome" placeholder="Nome" value="${fornecedor.nome}" required >
                         </div>
                     </div>
 
@@ -75,10 +78,10 @@
 
                         <div class="col-sm-10 ">
                             <label class="toggle">
-                                <input onchange="changeCampoCpfCnpj(this.id);" type="radio" id="cpf" name="toggle" checked> <span class="label-text">CPF</span>
+                                <input onchange="changeCampoCpfCnpj(this.id);" type="radio" id="cpf" name="toggle" checked> <span id="cpfV" class="label-text">CPF</span>
                             </label>
                             <label class="toggle">
-                                <input onchange="changeCampoCpfCnpj(this.id);" type="radio" id="cnpj" name="toggle"> <span class="label-text">CNPJ</span>
+                                <input onchange="changeCampoCpfCnpj(this.id);" type="radio" id="cnpj" name="toggle"> <span id="cnpjV" class="label-text">CNPJ</span>
                             </label>
                         </div>
 
@@ -116,10 +119,14 @@
                             <input type="text" class="form-control" name="emailAux" id="inputEmailAux" placeholder="E-mail Aux" value="${fornecedor.emailAux}">
                         </div>
                     </div>
-
+                    <div id="camposNaoPreenchidos" style="display:none" class="alert alert-danger" role="alert">
+                        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                        <span class="sr-only">Error:</span>
+                        <p id="campoNome"></p>
+                        <p id="campoCpfCnpj"></p>
+                    </div>
                 </form>
             </div>
         </div>
-        
     </body>
 </html>

@@ -41,8 +41,13 @@ function alteraFornecedor(id) {
     $('#modal-fornecedor').modal('show');
     $.get('fornecedor/alterar/' + id, function (dados) {
         $('#conteudo-modal').html(dados);
-        $('#inputCnpjCpf').attr('placeholder','CPF');
-        $("#inputCnpjCpf").mask("000.000.000-00",{reverse: true});
+        if($('#inputCnpjCpf').val().length === 14) {
+            $('#inputCnpjCpf').attr('placeholder','CPF');
+            $("#inputCnpjCpf").mask("000.000.000-00",{reverse: true});
+        } else {
+            $('#inputCnpjCpf').attr('placeholder','CNPJ');
+            $("#inputCnpjCpf").mask("00.000.000/0000-00",{reverse: true});
+        }
         $('#inputTelefone').mask('(00)0000-0000');
         $('#inputCelular').mask('(00)00000-0000');
     });
@@ -50,17 +55,89 @@ function alteraFornecedor(id) {
 
 function salvar() {
     $('#btn-salvar').click(function () {
-        var fornecedor = $("#form-cad-fornecedor").serialize();
-        $.post('fornecedor/salvar', fornecedor).done(function (retono, status, jqxhr) {
-            $.get('fornecedor/lista/',function (dados) {
-                $('#conteudo').html(dados);
+        var fornecedor = $("#form-cad-fornecedor").serializeArray();
+
+        if (validarCampos(fornecedor)) {
+
+            $.post('fornecedor/salvar', fornecedor).done(function (retono, status, jqxhr) {
+
+                $.get('fornecedor/lista/', function (dados) {
+                    $('#conteudo').html(dados);
+                });
+                $('#modal-fornecedor').modal('hide');
+                if (retono.toString() === "true") {
+                    centralMensagem(TipoMsg.SALVAR, "Cadastro de fornecedor", "Fornecedor cadastrado com sucesso!");
+                }
+                
+            }).fail(function (retono) {
+                centralMensagem(TipoMsg.ERRO, "Cadastro de fornecedor", "Erro ao cadastrar fornecedor " + retono);
             });
-            $('#modal-fornecedor').modal('hide');
-            if(retono.toString() === "true") {
-                centralMensagem(TipoMsg.SALVAR,"Cadastro de fornecedor","Fornecedor cadastrado com sucesso!");
-            }
-        }).fail(function (retono) {
-            alert('Falhou ');
-        });
+        }
     });
 };
+
+function validarCampos(array) {
+    
+    $("#campoNome").html("");
+    var validar = true;
+    
+    if (array[1].value === "") {
+
+        $("#camposNaoPreenchidos").show();
+        $("#campoNome").append('Por favor, preencha o campo nome!');
+        $("#inputNome").focus();
+        validar = false;
+        
+        //$("#campoNome").append('<span id="add_here" class="glyphicon glyphicon-alert bg-danger"></span>');
+        
+    } else if (array[1].value.length < 3) {
+        
+        $("#campoNome").html("");
+        $("#camposNaoPreenchidos").show();
+        $("#campoNome").append('O campo nome precisa ser maior ou iagual a três!');
+        $("#inputNome").focus();
+        validar = false;
+        
+    } else if(array[3].value.length === 14) {
+        
+        $("#campoCpfCnpj").html("");
+        var cpf = array[3].value;
+        
+        if(validarCpf(cpf)) {
+            validar = true;
+        } else {
+            $("#camposNaoPreenchidos").show();
+            $("#campoCpfCnpj").append('O CPF é inválido!');
+            validar = false;
+        }
+        
+    } else if(array[3].value.length === 18) {
+        
+        $("#campoCpfCnpj").html("");
+        var cnpj = array[3].value;
+
+        if(validarCNPJ(cnpj)) {
+            validar = true;
+        } else {
+            $("#camposNaoPreenchidos").show();
+            $("#campoCpfCnpj").append('O CNPJ é inválido!');
+            validar = false;
+        }
+        
+    } 
+    if(($('#cpf').is(':checked') && array[3].value === "") || ($('#cpf').is(':checked') && array[3].value.length < 14) ) {
+        $("#campoCpfCnpj").html("");
+        $("#camposNaoPreenchidos").show();
+        $("#campoCpfCnpj").append('O CPF é inválido!');
+        validar = false;
+    } else if($('#cnpj').is(":checked") && array[3].value === "" || 
+             ($('#cnpj').is(':checked') && (array[3].value.length > 14 && array[3].value.length < 18) || 
+             ($('#cnpj').is(":checked") && array[3].value.length < 18))) {
+        $("#campoCpfCnpj").html("");
+        $("#camposNaoPreenchidos").show();
+        $("#campoCpfCnpj").append('O CNPJ é inválido!');
+        validar = false;
+    }
+    
+    return validar;
+}

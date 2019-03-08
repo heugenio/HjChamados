@@ -62,6 +62,5 @@
 <!-- Fim Conteudo -->  
 <jsp:include page="../fragments/rodape.jsp"/>    
 <script src="${path}/static/js/fornecedor.js"></script>
-<script src="${path}/static/js/mensagemJs.js"/></script>
-
+<script src="${path}/static/js/util.js"/></script>
 </html>

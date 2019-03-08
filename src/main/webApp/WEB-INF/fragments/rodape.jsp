@@ -26,6 +26,5 @@
     <script src="${path}/static/vendor/jquery/jquery-3.1.1.min.js"></script>
     <script src="${path}/static/vendor/bootstrap/js/bootstrap.min.js"></script>
     <script src="${path}/static/vendor/jquery_mask/jquery.mask.min.js"></script>
-    <script src="${path}/static/vendor/jquery_mask/jquery.mask.js"></script>
-    <script src="${path}/static/vendor/jquery_validator/jquery.validate.min.js" ></script>
+    <script src="${path}/static/vendor/jquery/validator.min.js" ></script>
 </html>
