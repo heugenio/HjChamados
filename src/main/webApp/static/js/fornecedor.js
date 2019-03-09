@@ -56,7 +56,7 @@ function alteraFornecedor(id) {
 function salvar() {
     $('#btn-salvar').click(function () {
         var fornecedor = $("#form-cad-fornecedor").serializeArray();
-
+        
         if (validarCampos(fornecedor)) {
 
             $.post('fornecedor/salvar', fornecedor).done(function (retono, status, jqxhr) {

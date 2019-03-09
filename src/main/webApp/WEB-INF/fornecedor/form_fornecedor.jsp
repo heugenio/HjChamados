@@ -13,52 +13,6 @@
 <html>
     <body>
         
-        
-    <!--    <script>
-            $("#form-cad-fornecedor").validate({
-            rules: {
-                nome: {
-                    required: true,
-                    minlength: 3
-                },
-                cnpjCpf: {
-                    required: true
-                },
-                email: {
-                    required: true
-                },
-                telefone: {
-                    required: true,
-                    minlength: 13
-                },
-                celular: {
-                    required: true,
-                    minlength: 14
-                }
-            },
-            messages: {
-                nome: {
-                    required: "Por favor, informe o nome",
-                    minlength: "O nome deve ter pelo menos 3 caracteres"
-                },
-                cnpjCpf: {
-                    required: "É necessário informar CPF/CNPJ"
-                },
-                email: {
-                    required: "É necessário o e-mail"
-                },
-                telefone: {
-                    required: "É necessário informar o Nº telefone",
-                    minlength: "Número de telefone inválido"
-                },
-                celular: {
-                    required: "É necessário informar o Nº celular",
-                    minlength: "Número de celular inválido"
-                }
-            }
-        });
-        </script>-->
-    
         <div class="row" >
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <form data-toggle="validator" role="form" id="form-cad-fornecedor" class="form-horizontal">    
