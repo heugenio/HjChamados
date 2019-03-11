@@ -7,7 +7,10 @@ package br.com.hjsytems.hjchamados.controller;
 
 import br.com.hjsystems.hjchamados.util.PathPadrao;
 import br.com.hjsytems.hjchamados.entity.Fornecedor;
+import br.com.hjsytems.hjchamados.entity.TiposOcorrencia;
 import br.com.hjsytems.hjchamados.repository.FornecedorRepository;
+import br.com.hjsytems.hjchamados.repository.TiposOcorrenciaRepository;
+import java.util.List;
 import java.util.Optional;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,10 +33,8 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/fornecedor")
 public class FornecedorController {
 
-    @Autowired
-    private FornecedorRepository iFornecedorRepository;
-    
-    //@Autowired Fornecedor oEFornecedor;
+    @Autowired private FornecedorRepository iFornecedorRepository;
+    @Autowired private TiposOcorrenciaRepository iTiposOcorrenciaRepository;
     
     @GetMapping
     public ModelAndView abrir() {
@@ -42,16 +43,17 @@ public class FornecedorController {
     
     @GetMapping(PathPadrao.NOVO)
     public ModelAndView novo() {
-        return new ModelAndView("fornecedor/form_fornecedor").addObject("listaFornecedores", iFornecedorRepository.findAll());
+        return new ModelAndView("fornecedor/form_fornecedor").addObject("listTiposOcorrencias", iTiposOcorrenciaRepository.findAll());
     }
     
     @PostMapping(PathPadrao.SALVAR)
     public ResponseEntity<String> salvar(@Valid @ModelAttribute Fornecedor fornecedor, BindingResult bindingResult) {
+        
         if (bindingResult.hasErrors()) {
             return new ResponseEntity<>("", HttpStatus.BAD_REQUEST);
         } else {
             iFornecedorRepository.save(fornecedor);
-            return new ResponseEntity<>("true", HttpStatus.OK);
+            return new ResponseEntity<>("", HttpStatus.OK);
         }
     }
     
@@ -64,7 +66,14 @@ public class FornecedorController {
     
     @GetMapping(PathPadrao.ALTERAR+"{id}")
     public ModelAndView alterar(@PathVariable int id) {
-        return new ModelAndView("fornecedor/form_fornecedor").addObject("fornecedor", iFornecedorRepository.getOne(id));
+        return new ModelAndView("fornecedor/form_fornecedor")
+                .addObject("fornecedor", iFornecedorRepository.getOne(id))
+                .addObject("listTiposOcorrencias",iTiposOcorrenciaRepository.findAll());
+    }
+    
+    @GetMapping("/buscarFornecedorporId/{id}")
+    public ResponseEntity<Fornecedor> buscarFornPorId(@PathVariable int id) {
+        return new ResponseEntity<>(iFornecedorRepository.findById(id).get(),HttpStatus.OK);
     }
     
 }

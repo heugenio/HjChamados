@@ -12,7 +12,7 @@
 
 <html>
     <body>
-        
+
         <div class="row" >
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <form data-toggle="validator" role="form" id="form-cad-fornecedor" class="form-horizontal">    
@@ -73,14 +73,46 @@
                             <input type="text" class="form-control" name="emailAux" id="inputEmailAux" placeholder="E-mail Aux" value="${fornecedor.emailAux}">
                         </div>
                     </div>
+                    
+                    <div class="form-group">
+                        <input id="inputListTipo" type="hidden" name="listTiposOcorrencias" />
+                        <label for="inputOcorrencia" class="col-sm-2 control-label">Tipo ocorrência</label>
+                        <div class="col-sm-8">
+                            <select id="tipoOcorrenciaDescricao" class="form-control">
+                                <!--<option selected>Selecione um Tipo</option>-->
+                                <c:forEach items="${listTiposOcorrencias}" var="tipoOcorrencia">
+                                    <option value="${tipoOcorrencia.id}" >${tipoOcorrencia.descricao}</option>
+                                </c:forEach>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <button type="button" onclick="popularTabela()" id="btn-addFornTipoOcorrencia" class="btn btn-success">Adicionar</button>   
+                        </div>
+                    </div>
+                        
                     <div id="camposNaoPreenchidos" style="display:none" class="alert alert-danger" role="alert">
                         <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
                         <span class="sr-only">Error:</span>
                         <p id="campoNome"></p>
                         <p id="campoCpfCnpj"></p>
                     </div>
+
+                    <div >
+                        <div>
+                            <table id="tbTipoOcorrencia" class="table table-striped table-bordered">
+                                <!--Cabecalho da Tabela-->  
+                                <thead>
+                                    <tr>
+                                        <th>Tipo da ocorrência</th>
+                                        <th style="text-align: center">Ações</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>
+       
     </body>
 </html>

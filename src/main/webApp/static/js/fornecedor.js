@@ -1,6 +1,9 @@
-/* global TipoMsg */
+/* global TipoMsg, languagePtBr */
+
+var tiposOcorerencias = [];
 
 $(document).ready(function () {
+    
     $('#btn-search').click(function () {
         var param = $('#input-fornecedor').val();
         $.get('fornecedor/lista/' + param, function (dados) {
@@ -17,10 +20,23 @@ $(document).ready(function () {
             $("#inputCnpjCpf").mask("000.000.000-00",{reverse: true});
             $('#inputTelefone').mask('(00)0000-0000');
             $('#inputCelular').mask('(00)00000-0000');
+            tiposOcorerencias = [];
         });
     });
+    
     salvar();
 });
+
+function popularTabela() {
+    
+    var tipo = {
+        "id":parseInt($("#tipoOcorrenciaDescricao option:selected").val()),
+        "descricao":$("#tipoOcorrenciaDescricao option:selected").text()
+    };
+    
+    tiposOcorerencias.push(tipo);
+    initDataTable(tiposOcorerencias);
+}
 
 //Altera a formatação do campo cpf/cnpj conforme seleção.
 function changeCampoCpfCnpj(idBtnRadio) {
@@ -50,12 +66,27 @@ function alteraFornecedor(id) {
         }
         $('#inputTelefone').mask('(00)0000-0000');
         $('#inputCelular').mask('(00)00000-0000');
+        tiposOcorerencias = [];
+        
+        $.get("fornecedor/buscarFornecedorporId/"+id,function (fornecedor){
+            tiposOcorerencias = fornecedor.listTiposOcorrencias;
+            initDataTable(tiposOcorerencias);
+        });
     });
 }
 
 function salvar() {
+    
     $('#btn-salvar').click(function () {
+
         var fornecedor = $("#form-cad-fornecedor").serializeArray();
+        
+        var idTipod = [];
+        
+        for(i=0; i<tiposOcorerencias.length; i++) {
+            idTipod.push(tiposOcorerencias[i].id);
+        }
+        fornecedor[8].value = idTipod;
         
         if (validarCampos(fornecedor)) {
 
@@ -64,8 +95,10 @@ function salvar() {
                 $.get('fornecedor/lista/', function (dados) {
                     $('#conteudo').html(dados);
                 });
+                
                 $('#modal-fornecedor').modal('hide');
-                if (retono.toString() === "true") {
+                
+                if (status) {
                     centralMensagem(TipoMsg.SALVAR, "Cadastro de fornecedor", "Fornecedor cadastrado com sucesso!");
                 }
                 
@@ -140,4 +173,46 @@ function validarCampos(array) {
     }
     
     return validar;
+}
+var initDataTable = function (tipo){
+     $('#tbTipoOcorrencia').DataTable( {
+        destroy: true,
+        data: tipo,
+        language:languagePtBr,
+        paging:   false,
+        ordering: false,
+        info:     false,
+        columns: [
+            {data:"descricao", title: "Tipo da ocorrência" },
+            {data:"id", title: "Ações", mRender:function (data,type,row) {
+                return "<a href='#' data-toggle='tooltip' title='Clique para remover' class='btnRemover' data-id='"+data+"'> <i class='glyphicon glyphicon-remove'></i></a>";
+            }}
+        ],
+        'columnDefs': [
+            {
+                "targets":1,
+                "className": "text-center",
+                "width": "4%"
+            }
+        ],
+        searching: false 
+    });
+    removerTipoOcorrencia();
+};
+
+function removerTipoOcorrencia() {
+
+    $(".btnRemover").on("click",function () {
+        var id = $(this).data("id");
+        var arrayTipoA = tiposOcorerencias.filter(function (element, index, array) {
+            if(parseInt(element.id) === id) {
+                return array.indexOf(index);
+            }
+        });
+        
+        var arrayTipoB = tiposOcorerencias.filter(item => item.id !== arrayTipoA[0].id);
+        tiposOcorerencias = arrayTipoB;
+        
+        initDataTable(tiposOcorerencias);
+    });
 }

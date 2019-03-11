@@ -6,13 +6,17 @@
 package br.com.hjsytems.hjchamados.entity;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -58,7 +62,12 @@ private static final long SerialVersionUID = 1L;
 
     @Column(name = "FRNC_EMAIL_AUX")
     private String emailAux;
-
+    
+    
+    @OneToMany(targetEntity = TiposOcorrencia.class)
+    //@JoinColumn(name = "TPOC_ID")
+    private List<TiposOcorrencia> listTiposOcorrencias;
+    
     public Fornecedor() {
     }
 
@@ -116,6 +125,14 @@ private static final long SerialVersionUID = 1L;
 
     public void setEmailAux(String emailAux) {
         this.emailAux = emailAux;
+    }
+
+    public List<TiposOcorrencia> getListTiposOcorrencias() {
+        return listTiposOcorrencias;
+    }
+
+    public void setListTiposOcorrencias(List<TiposOcorrencia> listTiposOcorrencias) {
+        this.listTiposOcorrencias = listTiposOcorrencias;
     }
 
     @Override

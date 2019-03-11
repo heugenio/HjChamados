@@ -24,6 +24,7 @@
         <link href="${path}/static/css/style.css" rel="stylesheet" type="text/css"/>   
         <link href="${path}/static/css/menu.css" rel="stylesheet" type="text/css"/>
         <link href="${path}/static/css/radio_cpf_cnpj.css" rel="stylesheet" type="text/css"/>
+        <link href="${path}/static/vendor/data-tables/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
         <div class="">
