@@ -40,7 +40,7 @@ public class Ocorrencias implements Serializable{
     @Column(name = "OCRC_DESCRICAO")
     @NotNull
     @Basic(optional = false)
-    @Size(min = 10,max = 60)
+    @Size(min = 10,max = 5000)
     private String descricao;
     
     @Column(name = "OCRC_STATUS")

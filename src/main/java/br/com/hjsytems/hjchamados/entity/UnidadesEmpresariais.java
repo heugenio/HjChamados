@@ -7,7 +7,6 @@ package br.com.hjsytems.hjchamados.entity;
 
 import java.io.Serializable;
 import java.util.Objects;
-import javassist.SerialVersionUID;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -27,7 +26,6 @@ public class UnidadesEmpresariais implements Serializable{
    
     private static final long SerialVersionUID = 1L;
     @Id
-    @Basic(optional = false)
     @Column(name = "UNEM_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

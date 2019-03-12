@@ -7,10 +7,8 @@ package br.com.hjsytems.hjchamados.controller;
 
 import br.com.hjsystems.hjchamados.util.PathPadrao;
 import br.com.hjsytems.hjchamados.entity.Fornecedor;
-import br.com.hjsytems.hjchamados.entity.TiposOcorrencia;
 import br.com.hjsytems.hjchamados.repository.FornecedorRepository;
 import br.com.hjsytems.hjchamados.repository.TiposOcorrenciaRepository;
-import java.util.List;
 import java.util.Optional;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,10 +49,9 @@ public class FornecedorController {
         
         if (bindingResult.hasErrors()) {
             return new ResponseEntity<>("", HttpStatus.BAD_REQUEST);
-        } else {
-            iFornecedorRepository.save(fornecedor);
-            return new ResponseEntity<>("", HttpStatus.OK);
         }
+        iFornecedorRepository.save(fornecedor);
+        return new ResponseEntity<>("", HttpStatus.OK);
     }
     
     @GetMapping(value = {PathPadrao.LISTAR, "/lista/{nome}"})

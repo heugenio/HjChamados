@@ -29,58 +29,40 @@ import org.springframework.web.servlet.ModelAndView;
  */
 
 @Controller
-@RequestMapping("/tpoc")
+@RequestMapping("/tiposocorrencia")
 public class tiposOcorrenciaController {
 
-    @Autowired
-    private TiposOcorrenciaRepository tiposocorrencia;
+    @Autowired private TiposOcorrenciaRepository tiposocorrencia;
     
 
     @GetMapping
-    public ModelAndView Abrir() {
-        ModelAndView mv = new ModelAndView("tiposocorrencia/manutencao");
-        return mv;
+    public ModelAndView abrir() {
+        return new ModelAndView("tiposocorrencia/manutencao");
     }
     
     @GetMapping(value = {"/lista", "/lista/{descricao}"})
     public ModelAndView listaTiposOcorrencia(@PathVariable Optional<String> descricao) {
-        ModelAndView mv = new ModelAndView("tiposocorrencia/lista_tiposocorrencia");
-        String descricaoPsq = "";
-        if (descricao.isPresent()) {
-            descricaoPsq = descricao.get();
-        }
-        
-        List<TiposOcorrencia> ls = new ArrayList<>();
-        ls = tiposocorrencia.findBydescricaoContaining(descricaoPsq);
-
-        mv.addObject("listaTiposOcorrencia", ls);
-
-        return mv;
+        return new ModelAndView("tiposocorrencia/lista_tiposocorrencia")
+                .addObject("listaTiposOcorrencia", tiposocorrencia.findBydescricaoContaining(descricao.isPresent() == true ? descricao.get() : ""));
     }    
 
    @GetMapping("/novo")
     public ModelAndView novo() {
-        ModelAndView mv = new ModelAndView("tiposocorrencia/form_tiposocorrencia");
-
-        return mv;
+        return new ModelAndView("tiposocorrencia/form_tiposocorrencia");
     }
 
     @GetMapping("/alterar/{id}")
     public ModelAndView alterar(@PathVariable int id) {
-        ModelAndView mv = new ModelAndView("tiposocorrencia/form_tiposocorrencia");
-        TiposOcorrencia tpo = tiposocorrencia.getOne(id);
-
-        mv.addObject("tiposocorrencia", tpo);
-        return mv;
+        return new ModelAndView("tiposocorrencia/form_tiposocorrencia")
+                .addObject("tiposocorrencia", tiposocorrencia.getOne(id));
     }
 
     @PostMapping("/salvar")
     public ResponseEntity<String> salvar(@Valid @ModelAttribute TiposOcorrencia tiposocorrencia, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return new ResponseEntity<>("", HttpStatus.BAD_REQUEST);
-        } else {
-            this.tiposocorrencia.save(tiposocorrencia);
         }
+        this.tiposocorrencia.save(tiposocorrencia);
         return new ResponseEntity<>("", HttpStatus.OK);
     }
 }

@@ -20,16 +20,23 @@
                 <div class="col-sm-10">
                     <input type="text" class="form-control" name="descricao" id="inputDescricao" placeholder="Descrição" value="${tiposocorrencia.descricao}">
                 </div>
-            </div>    
+            </div>
+                
+                
             <div class="form-group">
                 <label for="inputPrazo" class="col-sm-2 control-label">Prazo</label>
                 <div class="col-sm-10">
                     <input type="number" class="form-control" name="prazo" id="inputPrazo" placeholder="Prazo" value="${tiposocorrencia.prazo}">
                 </div>
-            </div>    
-          
-
-
+            </div>
+                
+            <div id="camposNaoPreenchidos" style="display:none" class="alert alert-danger" role="alert">
+                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                <span class="sr-only">Error:</span>
+                <p id="campoDescricao"></p>
+                <p id="campoPrazo"></p>
+            </div>
+         
         </form>
     </div>        
 </div>

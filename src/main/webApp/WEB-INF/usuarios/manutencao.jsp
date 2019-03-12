@@ -13,6 +13,7 @@
 <fmt:setLocale value = "pt_BR"/>
 
 <jsp:include page="../fragments/cabecallho.jsp"/>
+<jsp:include page="../fragments/mensagem.jsp"/>
 <!-- Inicio do conteudo -->  
 <div class="container">
     <div class="row"> 
@@ -63,5 +64,6 @@
 </div><!-- /.modal -->
 <!-- Fim Conteudo -->  
 
-<jsp:include page="../fragments/rodape.jsp"/>    
+<jsp:include page="../fragments/rodape.jsp"/>
 <script src="${path}/static/js/usuario.js"></script>
+<script src="${path}/static/js/util.js"></script>

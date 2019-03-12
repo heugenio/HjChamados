@@ -27,7 +27,6 @@ public class TiposOcorrencia implements Serializable{
   
 public static final long SerialVersionUID = 1L;
     @Id
-    @Basic(optional = false)
     @Column(name = "TPOC_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id; 

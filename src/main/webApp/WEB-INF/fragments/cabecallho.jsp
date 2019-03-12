@@ -46,15 +46,16 @@
                                 <li class="col-sm-3">
                                     <ul>
                                         <li class="dropdown-header">Ocorrências</li>
-                                        <li><a href="Ocorrencias.jsp">Ocorrências</a></li>
+                                        <li><a href="${path}/ocorrencias">Ocorrências</a></li>
                                     </ul>
                                 </li>
                                 <li class="col-sm-3">
                                     <ul>
                                         <li class="dropdown-header">Cadastros</li>
-                                        <li><a href="${path}/user">Usuarios</a></li>
-                                        <li><a href="${path}/tpoc">Tipos Ocorrência</a></li>
+                                        <li><a href="${path}/usuario">Usuarios</a></li>
+                                        <li><a href="${path}/tiposocorrencia">Tipos Ocorrência</a></li>
                                         <li><a href="${path}/fornecedor">Fornecedores</a></li>
+                                        
                                     </ul>
                                 </li>
                             </ul>	

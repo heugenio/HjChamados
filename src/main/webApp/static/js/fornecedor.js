@@ -188,11 +188,11 @@ var initDataTable = function (tipo){
                 return "<a href='#' data-toggle='tooltip' title='Clique para remover' class='btnRemover' data-id='"+data+"'> <i class='glyphicon glyphicon-remove'></i></a>";
             }}
         ],
-        'columnDefs': [
+        columnDefs: [
             {
-                "targets":1,
-                "className": "text-center",
-                "width": "4%"
+                targets:1,
+                className: "text-center",
+                width: "4%"
             }
         ],
         searching: false 

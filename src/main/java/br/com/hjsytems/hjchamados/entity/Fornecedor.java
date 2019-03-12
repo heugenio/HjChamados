@@ -16,6 +16,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -30,7 +32,6 @@ public class Fornecedor implements Serializable{
     
 private static final long SerialVersionUID = 1L;
     @Id
-    @Basic(optional = false)
     @Column(name = "FRNC_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id; 
@@ -64,8 +65,11 @@ private static final long SerialVersionUID = 1L;
     private String emailAux;
     
     
-    @OneToMany(targetEntity = TiposOcorrencia.class)
-    //@JoinColumn(name = "TPOC_ID")
+    @ManyToMany
+    @JoinTable(name = "FORNECEDORES_TIPOS_OCORRENCIA",
+    joinColumns = @JoinColumn(name = "FRNC_ID"),
+    inverseJoinColumns = @JoinColumn(name = "TPOC_ID"))
+
     private List<TiposOcorrencia> listTiposOcorrencias;
     
     public Fornecedor() {

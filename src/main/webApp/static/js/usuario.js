@@ -1,43 +1,92 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
+/* global TipoMsg */
+
 $(document).ready(function () {
     $('#btn-search').click(function () {
         var param = $('#input-user').val();
-        $.get('user/lista/' + param, function (dados) {
+        $.get('usuario/lista/' + param, function (dados) {
             $('#conteudo').html(dados);
         });
     });
 
     $('#btn-adcionar').click(function () {
         $('#modal-user').modal('show');
-        $.get('user/novo', function (dados) {
+        $.get('usuario/novo', function (dados) {
             $('#conteudo-modal').html(dados);
         });
     });
 
-    int_botoes_usuarios();
+    salvar();
 });
 
 function alteraUser(id) {
     $('#modal-user').modal('show');
-    $.get('user/alterar/' + id, function (dados) {
+    $.get('usuario/alterar/' + id, function (dados) {
         $('#conteudo-modal').html(dados);
     });
-    int_botoes_usuarios();
 }
 
-var int_botoes_usuarios = function () {
+function  salvar() {
+    
     $('#btn-salvar').click(function () {
+        
         var user = $("#form-cad-user").serialize();
-        $.post('user/salvar', user).done(function (retono, status, jqxhr) {
-            $('#modal-user').modal('hide');
-            alert('Salvo com sucesso.');
-        }).fail(function (retono) {
-            alert('Falhou');
-        });
+        
+        if(validarUsuario()) {
+        
+            $.post('usuario/salvar', user).done(function (retorno, status, jqxhr) { 
+
+                $('#modal-user').modal('hide');
+
+                $.get('usuario/lista/', function (dados) {
+                    $('#conteudo').html(dados);
+                });
+
+                if(status) {
+                    centralMensagem(TipoMsg.SALVAR, "Cadastro de usuário", "Usuário cadastrado com sucesso!");
+                }
+
+            }).fail(function (retorno) {
+                centralMensagem(TipoMsg.ERRO, "Cadastro de usuário", retorno);
+            });
+            
+        }
+        
     });
+};
+
+function validarUsuario() {
+    
+    $("#campoNome").html("");
+    $("#campoLogin").html("");
+    $("#campoEmail").html("");
+    $("#campoPassword").html("");
+    
+    if($("#inputNome").val() === "") {
+        $("#camposNaoPreenchidos").show();
+        $("#campoNome").append('Por favor, preencha o campo nome!');
+        $("#inputNome").focus();
+        return false;
+        
+    } else if($("#inputLogin").val() === "") {
+        $("#camposNaoPreenchidos").show();
+        $("#campoLogin").append('Por favor, preencha o campo login!');
+        $("#inputLogin").focus();
+        return false;
+        
+    } else if($("#inputEmail3").val() === "") {
+        $("#camposNaoPreenchidos").show();
+        $("#campoLogin").append('Por favor, preencha o campo email!');
+        $("#inputEmail3").focus();
+        return false;
+        
+    } else if($("#inputPassword3").val() === "") {
+        $("#camposNaoPreenchidos").show();
+        $("#campoPassword").append('Por favor, preencha o campo password!');
+        $("#inputPassword3").focus();
+        return false;
+    }
+    $("#camposNaoPreenchidos").hide();
+    return true;
 }
 

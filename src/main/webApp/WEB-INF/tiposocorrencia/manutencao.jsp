@@ -13,6 +13,7 @@
 <fmt:setLocale value = "pt_BR"/>
 
 <jsp:include page="../fragments/cabecallho.jsp"/>
+<jsp:include page="../fragments/mensagem.jsp"/>
 <!-- Inicio do conteudo -->  
 
 <div class="container">
@@ -66,3 +67,4 @@
 <!-- Fim Conteudo -->  
 <jsp:include page="../fragments/rodape.jsp"/>    
 <script src="${path}/static/js/tiposocorrencia.js"></script>
+<script src="${path}/static/js/util.js"></script>
