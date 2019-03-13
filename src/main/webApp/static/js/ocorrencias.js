@@ -1,0 +1,121 @@
+
+/* global TipoMsg */
+
+var lenDescricao;
+
+$(document).ready(function () {
+    $('#btn-search').click(function () {
+        var param = $('#input-ocorrencias').val();
+        $.get('ocorrencias/lista/' + param, function (dados) {
+            $('#conteudo').html(dados);
+        });
+    });
+
+    $('#btn-adcionar').click(function () {
+        $('#modal-ocorrencias').modal('show');
+        $.get('ocorrencias/novo', function (dados) {
+            $('#conteudo-modal').html(dados);
+        });
+    });
+    int_botoes_tiposocorrencia();
+});
+
+
+
+
+var int_botoes_tiposocorrencia = function () {
+    
+    $('#btn-salvar').click(function () {
+        
+        if(validarCampos() && lenDescricao <= 5000) {
+        
+            var ocorrencias = $("#form-cad-ocorrencias").serialize();
+            
+            $.post('ocorrencias/salvar', ocorrencias).done(function (retono, status, jqxhr) {
+                
+                $('#modal-ocorrencias').modal('hide');
+                
+//                $.get('ocorrencias/lista/', function (dados) {
+//                    $('#conteudo').html(dados);
+//                });
+                
+                if(status) {
+                    centralMensagem(TipoMsg.SALVAR, "Cadastro de ocorrências", "Ocorrência cadastrada com sucesso!");
+                }
+                
+            }).fail(function (retono) {
+                centralMensagem(TipoMsg.ERRO, "Cadastro de ocorrências", "Um erro ocorreu! "+retono);
+            });
+            
+        }
+        
+    });
+};
+
+function validarCampos() {
+    
+    $("#pMsg").html("");
+    
+    if(Number.parseInt($("#selectOcorrenciasStatus option:selected").val()) === 11) {
+        $("#selectOcorrenciasStatus").focus().select();
+        $("#camposNaoPreenchidos").show();
+        $("#pMsg").append("Status é obrigatório!");
+        return false;
+    } else if(Number.parseInt($("#selectUnidade option:selected").val()) === 11) {
+        $("#selectUnidade").focus().select();
+        $("#camposNaoPreenchidos").show();
+        $("#pMsg").append("Unidade é obrigatória!");
+        return false;
+    } else if(Number.parseInt($("#selectTipoOcorrenciaDescricao option:selected").val()) === 11) {
+        $("#selectTipoOcorrenciaDescricao").focus().select();
+        $("#camposNaoPreenchidos").show();
+        $("#pMsg").append("Tipo ocorrência é obrigatório!");
+        return false;
+    } else if(Number.parseInt($("#selectFornecedor option:selected").val()) === 11) {
+        $("#selectFornecedor").focus().select();
+        $("#camposNaoPreenchidos").show();
+        $("#pMsg").append("Fornecedor é obrigatório!");
+        return false;
+    } else if($("#textAreaDescricao").val() === "") {
+        $("#textAreaDescricao").focus();
+        $("#camposNaoPreenchidos").show();
+        $("#pMsg").append("Descricão é obrigatória!");
+        return false;
+    }
+    
+    $("#camposNaoPreenchidos").hide();
+    return true;
+}
+
+function qtdCaracter(descricao) {
+    var num = Number.parseInt(descricao.length);
+    $("#caracterRestante").html("");
+    if(num<=5000) {
+        $("#dvCaracterRestante").show();
+        $("#caracterRestante").append("Restante: "+(5000-num));
+        lenDescricao = num;
+    }
+}
+
+
+function changeSelects(qualSelect) {
+
+    var idSelecSelecionado = $("#"+(qualSelect.toString())+" option:selected").val();
+        
+        $.get('ocorrencias/changeSelects/'+Number.parseInt(idSelecSelecionado),function (listaTipoOcorrencia) {
+            var selectbox = $('#selectTipoOcorrenciaDescricao');
+            if (listaTipoOcorrencia !== null && listaTipoOcorrencia.length > 0) {
+                selectbox.find('option').remove();
+                    $.each(listaTipoOcorrencia, function (i, d) {
+                    $('<option>').val(d.id).text(d.descricao).appendTo(selectbox);
+                });
+                selectbox.removeAttr("disabled");
+            } else {
+                selectbox.find('option').remove();
+                $('<option disabled selected>').text("Tipos ocorrências").appendTo(selectbox);
+                selectbox.prop("disabled",true);
+            }
+            
+        });
+        
+}

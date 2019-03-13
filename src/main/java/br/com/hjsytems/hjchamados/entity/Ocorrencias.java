@@ -46,7 +46,7 @@ public class Ocorrencias implements Serializable{
     @Column(name = "OCRC_STATUS")
     @NotNull
     @Basic(optional = false)
-    private String status;    
+    private String status;
     
     @Column(name = "OCRC_DT_ABERTURA")
     @NotNull

@@ -15,5 +15,5 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface OcorrenciasRepository extends JpaRepository<Ocorrencias, Integer> {
-
+    
 }

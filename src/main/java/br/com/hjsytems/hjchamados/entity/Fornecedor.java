@@ -9,7 +9,6 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,7 +17,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -69,7 +67,6 @@ private static final long SerialVersionUID = 1L;
     @JoinTable(name = "FORNECEDORES_TIPOS_OCORRENCIA",
     joinColumns = @JoinColumn(name = "FRNC_ID"),
     inverseJoinColumns = @JoinColumn(name = "TPOC_ID"))
-
     private List<TiposOcorrencia> listTiposOcorrencias;
     
     public Fornecedor() {
