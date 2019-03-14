@@ -17,14 +17,14 @@
         <div class="row" >
             <div class="col-xs-12 col-sm-12 col-md-12">
                 
-                <form data-toggle="validator" role="form" id="form-cad-ocorrencias" class="form-horizontal">    
+                <form id="form-cad-ocorrencias" class="form-horizontal">    
                     
-                    <input type="hidden" name="id" value="${ocorrencias.id}">
+                    <input type="hidden" name="id" value="${ocorrencia.id}">
                     
                     <div class="form-group">
                         <label for="usuario" class="col-sm-2 control-label">Usuários</label>
                         <div class="col-sm-10">
-                            <input type="text" title="Usuário logado" id="usuario"  class="form-control" readonly="false" />
+                            <input type="text" title="Usuário logado" id="usuario" value="${ocorrencia.usuario.nome}" class="form-control" readonly="false" />
                         </div>
                     </div>
                     
@@ -33,8 +33,8 @@
                         <div class="col-sm-10">
                             <select id="selectUnidade" name="unidadeEmpresarial" class="form-control">
                                 <option value="11" disabled selected>Unidades</option>
-                                <c:forEach items="${listUnidadeEmpresariais}" var="unidades">
-                                    <option value="${unidades.id}" >${unidades.nome}</option>
+                                <c:forEach items="${listUnidadeEmpresariais}" var="unidade">
+                                    <option value="${unidade.id}" <c:if test="${unidade eq ocorrencia.unidadeEmpresarial}">selected</c:if> > ${unidade.nome}</option>
                                 </c:forEach>
                             </select>
                         </div>
@@ -46,7 +46,7 @@
                             <select id="selectFornecedor" onchange="changeSelects(this.id)" name="fornecedor" class="form-control">
                                 <option value="11" disabled selected>Fornecedores</option>
                                 <c:forEach items="${listFornecedores}" var="fornecedor">
-                                    <option value="${fornecedor.id}" >${fornecedor.nome}</option>
+                                    <option value="${fornecedor.id}"<c:if test="${fornecedor eq ocorrencia.fornecedor}">selected</c:if> >${fornecedor.nome}</option>
                                 </c:forEach>
                             </select>
                         </div>
@@ -57,14 +57,18 @@
                         <div class="col-sm-10">
                             <select id="selectTipoOcorrenciaDescricao" disabled  name="tiposOcorrencia" class="form-control">
                                 <option disabled selected>Tipos ocorrências</option>
+                                <c:forEach items="${listTiposOcorrencias}" var="tipoOcorrencia">
+                                    <option value="${tipoOcorrencia.id}"<c:if test="${tipoOcorrencia eq ocorrencia.tiposOcorrencia}">selected</c:if> >${tipoOcorrencia.descricao}</option>
+                                </c:forEach>
                             </select>
+                            
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label for="textAreaDescricao" class="col-sm-2 control-label">Descrição</label>
                         <div class="col-sm-10">
-                            <textarea value="${ocorrencias.descricao}" rows="8" placeholder="Descreva o ocorrência aqui!" name="descricao" onkeyup="qtdCaracter(this.value)" id="textAreaDescricao" class="form-control"></textarea>
+                            <textarea rows="8" placeholder="Descreva o ocorrência aqui!" name="descricao" onkeyup="qtdCaracter(this.value)" id="textAreaDescricao" class="form-control">${ocorrencia.descricao}</textarea>
                         </div>
                     </div>
                         

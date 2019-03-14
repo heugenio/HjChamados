@@ -12,7 +12,7 @@
 <fmt:setLocale value = "pt_BR"/>
 <c:set var="path" value="${pageContext.request.contextPath}" scope="request" />
 <jsp:include page="../fragments/cabecallho.jsp"/>
-
+<jsp:include page="../fragments/mensagem.jsp"/>
 <style>
     #alertStatus {
         margin-bottom: 1px;
@@ -45,7 +45,7 @@
                     </div>  
 
                     <div class="col-xs-3">
-                        <select id="ocorrencia" class="form-control">
+                        <select id="unidades" class="form-control">
                             <option value="" disabled selected>Unidades</option>
                             <c:forEach items="${listUnidadeEmpresariais}" var="unidades">
                                 <option value="${unidades.id}" >${unidades.nome}</option>
@@ -56,10 +56,10 @@
                     <div class="col-xs-3">
                         <div id="alertStatus" class="alert alert-info" role="alert">
                             <label style="color: #000;" class="toggle">
-                                <input type="radio" id="aberto" name="toggle"> <span id="aberto" class="label-text">Aberto</span>
+                                <input type="radio" value="Aberto" id="aberto" name="toggle" checked> <span id="aberto" class="label-text">Aberto</span>
                             </label>  
                             <label style="color: #000" class="toggle">
-                                <input type="radio" name="toggle"> <span class="label-text">Fechado</span>
+                                <input type="radio" value="Fechado" name="toggle"> <span class="label-text">Fechado</span>
                             </label>
                         </div>
                     </div>

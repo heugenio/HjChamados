@@ -8,7 +8,6 @@ package br.com.hjsytems.hjchamados.entity;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -31,32 +30,29 @@ import javax.validation.constraints.Size;
 public class Ocorrencias implements Serializable{
     
     public static final long SerialVersionUID = 1L;
+    
     @Id
-    @Basic(optional = false)
     @Column(name = "OCRC_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id; 
     
     @Column(name = "OCRC_DESCRICAO")
     @NotNull
-    @Basic(optional = false)
-    @Size(min = 10,max = 5000)
+    @Size(max = 5000)
     private String descricao;
     
     @Column(name = "OCRC_STATUS")
-    @NotNull
-    @Basic(optional = false)
+    //@NotNull
     private String status;
     
     @Column(name = "OCRC_DT_ABERTURA")
-    @NotNull
-    @Basic(optional = false)
+    //@NotNull
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataAbertura;   
 
     @Column(name = "OCRC_DT_FECHAMENTO")
-    @NotNull
-    @Basic(optional = false)
+//    @NotNull
+//    @Basic(optional = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataFechamento;  
     

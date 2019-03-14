@@ -5,10 +5,21 @@ var lenDescricao;
 
 $(document).ready(function () {
     $('#btn-search').click(function () {
-        var param = $('#input-ocorrencias').val();
-        $.get('ocorrencias/lista/' + param, function (dados) {
+        
+        var fornecedor = $('#input-fornecedor').val();
+        var unidade = $("#unidades option:selected").val();
+        var status = $('input[name=toggle]:checked').val();
+
+        var filtros = {
+            "fornecedor": fornecedor,
+            "unidades": unidade,
+            "status": status
+        };
+        
+        $.get('ocorrencias/lista/',filtros, function (dados) {
             $('#conteudo').html(dados);
         });
+        
     });
 
     $('#btn-adcionar').click(function () {
@@ -17,14 +28,14 @@ $(document).ready(function () {
             $('#conteudo-modal').html(dados);
         });
     });
-    int_botoes_tiposocorrencia();
+    salvar();
 });
 
 
 
 
-var int_botoes_tiposocorrencia = function () {
-    
+function salvar() {
+
     $('#btn-salvar').click(function () {
         
         if(validarCampos() && lenDescricao <= 5000) {
@@ -32,12 +43,22 @@ var int_botoes_tiposocorrencia = function () {
             var ocorrencias = $("#form-cad-ocorrencias").serialize();
             
             $.post('ocorrencias/salvar', ocorrencias).done(function (retono, status, jqxhr) {
-                
+
                 $('#modal-ocorrencias').modal('hide');
                 
-//                $.get('ocorrencias/lista/', function (dados) {
-//                    $('#conteudo').html(dados);
-//                });
+                var fornecedor = $('#selectFornecedor option:selected').text();
+                var unidade = $("#selectUnidade option:selected").val();
+                var status = $('input[name=toggle]:checked').val();
+
+                var filtros = {
+                    "fornecedor": fornecedor,
+                    "unidades": unidade,
+                    "status": status
+                };
+                
+                $.get('ocorrencias/lista/',filtros, function (dados) {
+                    $('#conteudo').html(dados);
+                });
                 
                 if(status) {
                     centralMensagem(TipoMsg.SALVAR, "Cadastro de ocorrências", "Ocorrência cadastrada com sucesso!");
@@ -51,6 +72,15 @@ var int_botoes_tiposocorrencia = function () {
         
     });
 };
+
+function alterarOcorrencia(id) {
+    $('#modal-ocorrencias').modal('show');
+    $.get('ocorrencias/alterar/' + id, function (dados) {
+        $('#selectTipoOcorrenciaDescricao').removeAttr("disabled");
+        $('#conteudo-modal').html(dados);
+    });
+}
+
 
 function validarCampos() {
     
@@ -100,22 +130,22 @@ function qtdCaracter(descricao) {
 
 function changeSelects(qualSelect) {
 
-    var idSelecSelecionado = $("#"+(qualSelect.toString())+" option:selected").val();
-        
-        $.get('ocorrencias/changeSelects/'+Number.parseInt(idSelecSelecionado),function (listaTipoOcorrencia) {
-            var selectbox = $('#selectTipoOcorrenciaDescricao');
-            if (listaTipoOcorrencia !== null && listaTipoOcorrencia.length > 0) {
-                selectbox.find('option').remove();
-                    $.each(listaTipoOcorrencia, function (i, d) {
-                    $('<option>').val(d.id).text(d.descricao).appendTo(selectbox);
-                });
-                selectbox.removeAttr("disabled");
-            } else {
-                selectbox.find('option').remove();
-                $('<option disabled selected>').text("Tipos ocorrências").appendTo(selectbox);
-                selectbox.prop("disabled",true);
-            }
-            
-        });
-        
+    var idSelecSelecionado = $("#" + (qualSelect.toString()) + " option:selected").val();
+
+    $.get('ocorrencias/changeSelects/' + Number.parseInt(idSelecSelecionado), function (listaTipoOcorrencia) {
+        var selectbox = $('#selectTipoOcorrenciaDescricao');
+        if (listaTipoOcorrencia !== null && listaTipoOcorrencia.length > 0) {
+            selectbox.find('option').remove();
+            $.each(listaTipoOcorrencia, function (i, d) {
+                $('<option>').val(d.id).text(d.descricao).appendTo(selectbox);
+            });
+            selectbox.removeAttr("disabled");
+        } else {
+            selectbox.find('option').remove();
+            $('<option disabled selected>').text("Tipos ocorrências").appendTo(selectbox);
+            selectbox.prop("disabled", true);
+        }
+
+    });
+
 }

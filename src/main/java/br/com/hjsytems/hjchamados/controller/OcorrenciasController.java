@@ -1,8 +1,8 @@
 
 package br.com.hjsytems.hjchamados.controller;
 
+import br.com.hjsystems.hjchamados.util.EnviaEmail;
 import br.com.hjsystems.hjchamados.util.PathPadrao;
-import br.com.hjsytems.hjchamados.entity.Fornecedor;
 import br.com.hjsytems.hjchamados.entity.Ocorrencias;
 import br.com.hjsytems.hjchamados.entity.TiposOcorrencia;
 import br.com.hjsytems.hjchamados.entity.Usuarios;
@@ -39,11 +39,12 @@ public class OcorrenciasController {
     @Autowired private UsuarioRepository iUsuarioRepository;
     @Autowired private TiposOcorrenciaRepository iTiposOcorrenciaRepository;
     @Autowired private FornecedorRepository iFornecedorRepository;
-    
-    private final String SELECTS[] = {"usuario","unidade","fornecedor","tiposOcorrencia"};
+
+    private final String STATUS[] = {"Aberto","Fechado"};
     
     @GetMapping
     public ModelAndView preparaEstadoInicial() {
+        EnviaEmail.sendEmail("brunohallef@gmail.com", "Hallef", "Olá e-mail de teste!!! ", "Olá e-mail de teste!");
         return new ModelAndView("ocorrencias/manutencao")
                 .addObject("listUnidadeEmpresariais", iUnidadesEmpresariaisRepository.findAll());
                 //.addObject("usuariologado","USUÁRIO-LOGADO");
@@ -61,9 +62,16 @@ public class OcorrenciasController {
     @PostMapping(PathPadrao.SALVAR)
     public ResponseEntity<String> salvar(@Valid @ModelAttribute Ocorrencias oEOcorrencias, BindingResult bindingResult) {
         Usuarios oEUsuarios = new Usuarios();
-        oEUsuarios.setNome("TESTE");
+        oEUsuarios.setId(17);
+        oEUsuarios.setNome("Carlos");
+        oEUsuarios.setLogin("car@gmail.com");
+        oEUsuarios.setEmail("car@gmail.com");
+        oEUsuarios.setSenha("123");
+        oEUsuarios.setUnidadeEmpresarial(oEOcorrencias.getUnidadeEmpresarial());
+        oEOcorrencias.setStatus(STATUS[0]);
         oEOcorrencias.setUsuario(oEUsuarios);
         oEOcorrencias.setDataAbertura(new Date());
+        oEOcorrencias.setDataFechamento(new Date());
         
         if (bindingResult.hasErrors()) {
             return new ResponseEntity<>("", HttpStatus.BAD_REQUEST);
@@ -76,4 +84,27 @@ public class OcorrenciasController {
     public ResponseEntity<List<TiposOcorrencia>> changeSelects(@PathVariable int id) {
         return new ResponseEntity<>(iFornecedorRepository.findById(id).get().getListTiposOcorrencias(),HttpStatus.OK);
     }
+    
+    //Listar por nome fornecedor
+    @GetMapping(value = {PathPadrao.LISTAR, "/lista/"})
+    public ModelAndView listaOcorrenciasPorFornecedor(String fornecedor, Integer unidades, String status) {
+        if(unidades != null && unidades > 0) {
+            return new ModelAndView("ocorrencias/lista_ocorrencias")
+                .addObject("listaOcorrencias", iOcorrenciasRepository.findByForStatusUnidade(fornecedor,status,iUnidadesEmpresariaisRepository.getOne(unidades)));
+        }
+        return new ModelAndView("ocorrencias/lista_ocorrencias").addObject("listaOcorrencias", iOcorrenciasRepository.findByFornecedorStatus(fornecedor,status));
+    }
+    
+    @GetMapping("/alterar/{id}")
+    public ModelAndView alterar(@PathVariable int id) {
+        
+        Ocorrencias oEOcorrencias = iOcorrenciasRepository.findById(id).get();
+        
+        return new ModelAndView("ocorrencias/form_ocorrencias")
+                .addObject("ocorrencia", oEOcorrencias)
+                .addObject("listUnidadeEmpresariais",iUnidadesEmpresariaisRepository.findAll())
+                .addObject("listFornecedores",iFornecedorRepository.findAll())
+                .addObject("listTiposOcorrencias", iFornecedorRepository.findById(oEOcorrencias.getFornecedor().getId()).get().getListTiposOcorrencias());
+    }
+    
 }
