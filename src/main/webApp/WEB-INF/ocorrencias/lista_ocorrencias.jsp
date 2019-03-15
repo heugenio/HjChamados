@@ -16,6 +16,8 @@
           $('[data-toggle="tooltip"]').tooltip(); 
         });
     </script>
+    
+    <c:set var = "status" value = "Aberto"/>
 
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div style="margin-top: 9px" class="table-responsive" >
@@ -31,6 +33,7 @@
                         <th>Tipo da ocorrência</th>
                         <th>Unidade</th>
                         <th style="text-align: center">Ações</th>
+                        <th style="text-align: center">Alterar status</th>
                     </tr>
                 </thead>
                 <!--Fim Cabecalho da Tabela-->  
@@ -44,7 +47,9 @@
                             <td> ${ocorrencias.usuario.nome}</td> 
                             <td> <fmt:formatDate value="${ocorrencias.dataAbertura}" pattern="dd/MM/yyyy"/></td>
                             <td> <fmt:formatDate value="${ocorrencias.dataFechamento}" pattern="dd/MM/yyyy"/></td>
-                            <td> ${ocorrencias.status}</td>
+                            <c:if test = "${status == ocorrencias.status}">
+                                <td style="color: green"> ${ocorrencias.status}</td>
+                            </c:if>
                             <td> ${ocorrencias.fornecedor.nome}</td>
                             <td> ${ocorrencias.tiposOcorrencia.descricao}</td>
                             <td> ${ocorrencias.unidadeEmpresarial.nome}</td>
@@ -52,7 +57,14 @@
                                 <a href="#" data-toggle="tooltip" title="Clique para editar" onclick="alterarOcorrencia(${ocorrencias.id})">
                                     <i class="glyphicon glyphicon-pencil"></i>                                 
                                 </a>
-                            </td>  
+                            </td>
+                            
+                            <td style="text-align: center"> 
+                                <a href="#" data-toggle="tooltip" title="Clique para editar" onclick="alterarOcorrencia(${ocorrencias.id})">
+                                    <i class="glyphicon glyphicon-pencil"></i>                                 
+                                </a>
+                            </td>
+                            
                         </tr>
                     </c:forEach>
 

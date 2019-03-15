@@ -2,6 +2,8 @@
 package br.com.hjsystems.hjchamados.util;
 
 import static java.lang.System.out;
+import java.util.Arrays;
+import java.util.List;
 import javax.swing.JTextArea;
 import org.apache.commons.mail.EmailAttachment;
 import org.apache.commons.mail.EmailException;
@@ -28,7 +30,7 @@ public class EnviaEmail {
             //Adicione os destinatários
             email.addTo(emailDest, nomeDest);
             //Configure o seu email do qual enviará
-            email.setFrom("informativo@hjsystems.com.br", "Informativo Financeiro");
+            email.setFrom("informativo@hjsystems.com.br", "Informativo Ocorrência");
             //Adicione um assunto
             email.setSubject(assunto);
             //Adicione a mensagem do email
@@ -47,9 +49,11 @@ public class EnviaEmail {
     }
     
 
-    public static void sendEmailHtml(String emailDest, String nomeDest, String assunto, String msg, JTextArea jTaLog) throws EmailException {
-
+    public static void sendEmailHtml(List<String> emails, String nomeDest, String assunto, String msg) {
+        
         HtmlEmail email = new HtmlEmail();
+        JTextArea jTaLog = new JTextArea();
+        
         email.setSSLOnConnect(true);
         email.setHostName("mail.hjsystems.com.br");
         email.setSslSmtpPort("465");
@@ -61,7 +65,7 @@ public class EnviaEmail {
         jTaLog.requestFocus();
         jTaLog.setCaretPosition(jTaLog.getText().length());
         try {
-            email.setFrom("informativo@hjsystems.com.br", "Informativo Financeiro");
+            email.setFrom("informativo@hjsystems.com.br", "Informativo Ocorrência");
             email.setDebug(false);
             email.setSubject(assunto);
 
@@ -69,9 +73,12 @@ public class EnviaEmail {
             builder.append(msg);
 
             email.setHtmlMsg(builder.toString());
-            email.addTo(emailDest, nomeDest);
+            for(int i=0; i<emails.size(); i++) {
+                email.addTo(emails.get(i), nomeDest);
+            }
+            
             //System.out.println("enviando...");
-            jTaLog.append("enviando para " + emailDest + "... \n");
+            jTaLog.append("enviando para " + Arrays.toString(emails.toArray()) + "... \n");
             jTaLog.requestFocus();
             jTaLog.setCaretPosition(jTaLog.getText().length());
             email.send();
@@ -86,9 +93,9 @@ public class EnviaEmail {
         }
     }
 
-    public static void sendEmailAnexo(String emailDest, String nomeDest, String assunto, String msg, String caminhoArquivo) throws EmailException {
-
+    public static void sendEmailAnexo(String emailDest, String nomeDest, String assunto, String msg, String caminhoArquivo) {
         HtmlEmail email = new HtmlEmail();
+        boolean enviou = false;
         email.setSSLOnConnect(true);
         email.setHostName("mail.hjsystems.com.br");
         email.setSslSmtpPort("465");
@@ -113,19 +120,22 @@ public class EnviaEmail {
                     + "  <tr>\n"
                     + "    <td width=\"14%\"><img src=\"http://hjsystems.com.br/wp-content/uploads/2015/02/logo-sit2.png\" width=\"225\" height=\"51\" /></td>\n"
                     + "    <td width=\"86%\"><p>Olá "+nomeDest+", o seu informativo diario de vendas esta disponível em anexo.</p>\n"
-                    + "    <p style=\"font-size:10px;\"> Caso não queira mais continuar recebendo este email, entre em contato com um de nossos consultores.</p></td>\n"
-                    + "  </tr>\n"
-                    + "</table>\n"
-                    + "</body>");
+                            + "    <p style=\"font-size:10px;\"> Caso não queira mais continuar recebendo este email, entre em contato com um de nossos consultores.</p></td>\n"
+                            + "  </tr>\n"
+                            + "</table>\n"
+                            + "</body>");
             email.setHtmlMsg(builder.toString());
             email.addTo(emailDest, nomeDest);
             //System.out.println("enviando...");
             email.send();
-
+            enviou = true;
         } catch (EmailException e) {
             e.printStackTrace();
         } finally {
-            out.println("Email enviado!");
+            if(enviou)
+                out.println("Email enviado!");
+            else 
+                out.println("Falha oa envio!");
         }
     }
 }

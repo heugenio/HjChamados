@@ -1,8 +1,6 @@
 
 /* global TipoMsg */
 
-var lenDescricao;
-
 $(document).ready(function () {
     $('#btn-search').click(function () {
         
@@ -38,9 +36,11 @@ function salvar() {
 
     $('#btn-salvar').click(function () {
         
-        if(validarCampos() && lenDescricao <= 5000) {
-        
-            var ocorrencias = $("#form-cad-ocorrencias").serialize();
+        if(validarCampos()) {
+
+            var ocorrencias = $("#form-cad-ocorrencias").serialize();//
+            
+            $("#div_gif").show();
             
             $.post('ocorrencias/salvar', ocorrencias).done(function (retono, status, jqxhr) {
 
@@ -61,10 +61,12 @@ function salvar() {
                 });
                 
                 if(status) {
-                    centralMensagem(TipoMsg.SALVAR, "Cadastro de ocorrências", "Ocorrência cadastrada com sucesso!");
+                    $("#div_gif").hide();
+                    centralMensagem(TipoMsg.SALVAR, "Cadastro de ocorrências", "Ocorrência cadastrada com sucesso! E-mail enviado");
                 }
                 
             }).fail(function (retono) {
+                $("#div_gif").hide();
                 centralMensagem(TipoMsg.ERRO, "Cadastro de ocorrências", "Um erro ocorreu! "+retono);
             });
             
@@ -76,8 +78,8 @@ function salvar() {
 function alterarOcorrencia(id) {
     $('#modal-ocorrencias').modal('show');
     $.get('ocorrencias/alterar/' + id, function (dados) {
-        $('#selectTipoOcorrenciaDescricao').removeAttr("disabled");
         $('#conteudo-modal').html(dados);
+        $('#selectTipoOcorrenciaDescricao').removeAttr("disabled");
     });
 }
 
@@ -123,7 +125,6 @@ function qtdCaracter(descricao) {
     if(num<=5000) {
         $("#dvCaracterRestante").show();
         $("#caracterRestante").append("Restante: "+(5000-num));
-        lenDescricao = num;
     }
 }
 

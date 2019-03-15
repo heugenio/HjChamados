@@ -1,0 +1,106 @@
+.multiselect {
+	width: 100%;
+}
+
+.multiselect .selectBox {
+	position: relative;
+}
+
+.multiselect .selectBox select {
+	width: 100%;
+	font-weight: bold;
+}
+
+.multiselect .overSelect {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+}
+
+.multiselect #listagem {
+	border: 1px #7795ce solid;
+	display: none;
+	background-color: white;
+	box-shadow: 1px 1px 10px #aaaaaa;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+}
+
+.multiselect #checkboxes {
+	height: 200px;
+	overflow:auto;
+}
+
+.multiselect .barraBotoes{
+    width: 100%;
+    text-align: center;
+}
+
+.multiselect #checkboxes .item {
+	display: block;
+	font-weight:normal;
+	padding: 2px 0px 0px 10px;
+	cursor: pointer;
+}
+
+.multiselect #checkboxes label {
+	margin: 0;
+}
+    
+.multiselect #checkboxes .item:hover {
+	background-color: #E9E9E9;
+	color: #000;
+}
+
+.multiselect #checkboxes .grupo {
+	display: block;
+	font-weight:bold;
+	padding: 5px 0px 3px 5px;
+	margin: 0px 0px 0px 0px;
+	background-color: #f5f5f5;
+	cursor: pointer;
+}
+
+.multiselect #checkboxes .grupo:hover {
+	background-color: #b0b0b0;
+	color: #fff;
+}
+
+.multiselect #listagem .todos{
+	font-weight: bold;
+	padding: 3px 0px 4px 0px;
+    margin: 3px 0px 3px 0px;
+	text-align: center;
+	border: 1px #eaeafa solid;
+	background-color: #f4fbff;
+	cursor: pointer;
+	width: 49%;
+	display: inline-block;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+}
+
+.multiselect #listagem .todos:hover{
+	background-color: #EeF5ff;
+	cursor: pointer;
+}
+
+.multiselect #listagem .selecionado{
+	background-color: #14ABFC;
+	color: #FFF;
+}
+.multiselect #listagem .selecionado:hover{
+	background-color: #129CE5;
+	color: #FFF;
+}
+
+.multiselect #checkboxes .txtItem{
+	display: inline;
+	vertical-align: text-bottom;
+	padding: 0px 0px 0px 0px;
+	cursor: pointer;
+}

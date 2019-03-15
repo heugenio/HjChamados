@@ -29,4 +29,5 @@
     <script src="${path}/static/vendor/jquery/validator.min.js" ></script>
     <script src="${path}/static/vendor/data-tables/js/jquery.dataTables.min.js"></script>
     <script src="${path}/static/vendor/data-tables/js/dataTables.bootstrap.min.js"></script>
+    <script src="${path}/static/vendor/select/select3.js" ></script>
 </html>

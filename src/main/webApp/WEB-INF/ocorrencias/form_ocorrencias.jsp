@@ -10,9 +10,12 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
+
 <html>
     
     <body>
+        
+        <div id="div_gif" class="gif_event_ajax"></div>
         
         <div class="row" >
             <div class="col-xs-12 col-sm-12 col-md-12">
@@ -61,14 +64,13 @@
                                     <option value="${tipoOcorrencia.id}"<c:if test="${tipoOcorrencia eq ocorrencia.tiposOcorrencia}">selected</c:if> >${tipoOcorrencia.descricao}</option>
                                 </c:forEach>
                             </select>
-                            
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label for="textAreaDescricao" class="col-sm-2 control-label">Descrição</label>
                         <div class="col-sm-10">
-                            <textarea rows="8" placeholder="Descreva o ocorrência aqui!" name="descricao" onkeyup="qtdCaracter(this.value)" id="textAreaDescricao" class="form-control">${ocorrencia.descricao}</textarea>
+                            <textarea rows="8" placeholder="Descreva o ocorrência aqui!" name="descricao" onkeyup="qtdCaracter(this.value)" maxlength="5000" minlength="20" id="textAreaDescricao" class="form-control">${ocorrencia.descricao}</textarea>
                         </div>
                     </div>
                         
@@ -84,7 +86,7 @@
                             <p id="caracterRestante"></p>
                         </div>
                     </div>
-                        
+
                 </form>
                     
             </div>

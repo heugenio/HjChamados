@@ -13,6 +13,7 @@
 <c:set var="path" value="${pageContext.request.contextPath}" scope="request" />
 <jsp:include page="../fragments/cabecallho.jsp"/>
 <jsp:include page="../fragments/mensagem.jsp"/>
+
 <style>
     #alertStatus {
         margin-bottom: 1px;
