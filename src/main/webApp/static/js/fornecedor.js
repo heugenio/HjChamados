@@ -99,11 +99,11 @@ function salvar() {
                 $('#modal-fornecedor').modal('hide');
                 
                 if (status) {
-                    centralMensagem(TipoMsg.SALVAR, "Cadastro de fornecedor", "Fornecedor cadastrado com sucesso!");
+                    centralMensagemInfo(TipoMsg.SALVAR, "Cadastro de fornecedor", "Fornecedor cadastrado com sucesso!");
                 }
                 
             }).fail(function (retono) {
-                centralMensagem(TipoMsg.ERRO, "Cadastro de fornecedor", "Erro ao cadastrar fornecedor " + retono);
+                centralMensagemInfo(TipoMsg.ERRO, "Cadastro de fornecedor", "Erro ao cadastrar fornecedor " + retono);
             });
         }
     });

@@ -44,11 +44,11 @@ var int_botoes_tiposocorrencia = function () {
                 });
                 
                 if(status) {
-                    centralMensagem(TipoMsg.SALVAR, "Cadastro de Tipo de ocorrência", "Tipo de ocorrência cadastrado com sucesso!");
+                    centralMensagemInfo(TipoMsg.SALVAR, "Cadastro de Tipo de ocorrência", "Tipo de ocorrência cadastrado com sucesso!");
                 }
                 
             }).fail(function (retono) {
-                centralMensagem(TipoMsg.ERRO, "Cadastro de Tipo de ocorrência", "Um erro ocorreu! "+retono);
+                centralMensagemInfo(TipoMsg.ERRO, "Cadastro de Tipo de ocorrência", "Um erro ocorreu! "+retono);
             });
             
         }

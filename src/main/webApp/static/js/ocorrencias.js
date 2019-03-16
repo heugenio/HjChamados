@@ -62,12 +62,12 @@ function salvar() {
                 
                 if(status) {
                     $("#div_gif").hide();
-                    centralMensagem(TipoMsg.SALVAR, "Cadastro de ocorrências", "Ocorrência cadastrada com sucesso! E-mail enviado");
+                    centralMensagemInfo(TipoMsg.SALVAR, "Cadastro de ocorrências", "Ocorrência cadastrada com sucesso! E-mail enviado");
                 }
                 
             }).fail(function (retono) {
                 $("#div_gif").hide();
-                centralMensagem(TipoMsg.ERRO, "Cadastro de ocorrências", "Um erro ocorreu! "+retono);
+                centralMensagemInfo(TipoMsg.ERRO, "Cadastro de ocorrências", "Um erro ocorreu! "+retono);
             });
             
         }
@@ -148,5 +148,13 @@ function changeSelects(qualSelect) {
         }
 
     });
+}
 
+function alterarStatus(idOcorrencia,staOcorrencia) {
+    centralMensagem(TipoMsg.SALVAR, "Manutenção de ocorrência", "Deseja realmente alterar o status dessa ocorrência?","SIM","NÃO");
+    $("#btn1").click(function () {
+        $.get("ocorrencias/updateStatusOcorrencia/"+parseInt(idOcorrencia)+"/"+staOcorrencia, function (statusAlterado) {
+            
+        });
+    });
 }

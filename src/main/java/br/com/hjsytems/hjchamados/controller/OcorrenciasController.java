@@ -89,9 +89,9 @@ public class OcorrenciasController {
         iOcorrenciasRepository.save(oEOcorrencias);
 
         List emais = new LinkedList();
-        emais.add(oEUsuarios.getEmail());
-        emais.add(oEOcorrencias.getFornecedor().getEmail());
-        emais.add(oEOcorrencias.getFornecedor().getEmailAux());
+        //emais.add(oEUsuarios.getEmail());
+        //emais.add(oEOcorrencias.getFornecedor().getEmail());
+        //emais.add(oEOcorrencias.getFornecedor().getEmailAux());
         emais.add("brunohallef@gmail.com");
 
         Object dados[] = {
@@ -107,6 +107,15 @@ public class OcorrenciasController {
         EnviaEmail.sendEmailHtml(emais, oEOcorrencias.getFornecedor().getNome(), "Chamado De Ocorrência!", corpoEmailHtml(dados));
 
         return new ResponseEntity<>("", HttpStatus.OK);
+    }
+    
+    @GetMapping("/updateStatusOcorrencia/{idOcorrencia}/{status}")
+    public ResponseEntity updateStatus(@PathVariable int idOcorrencia, String status) {
+        Ocorrencias oEOcorrencias = new Ocorrencias();
+        iTiposOcorrenciaRepository.getOne(idOcorrencia);
+        oEOcorrencias.setStatus(status);
+        //iTiposOcorrenciaRepository.save(oEOcorrencias);
+        return new ResponseEntity<>("ok", HttpStatus.OK);
     }
 
     @GetMapping("/changeSelects/{id}")
@@ -137,6 +146,12 @@ public class OcorrenciasController {
     }
 
     private String corpoEmailHtml(Object... dados) {//String usuarioQueAbriu,String status, String unidadeEmpresarial, String responsavelPelaUnidade, String dataAbertura
+        String spanStatus;
+        if(dados[1].equals(STATUS[0])) {
+            spanStatus = "<span style=\"color:green\">"+dados[1]+"</span>";
+        } else {
+            spanStatus = "<span style=\"color:red\">"+dados[1]+"</span>";
+        }
         String html = "<!DOCTYPE html>  <html lang=\"pt-BR\"> "
                 + "<head>  "
                 + "<meta charset=\"UTF-8\">  "
@@ -204,18 +219,18 @@ public class OcorrenciasController {
                 + "                <td style=\"float: left;\">\n"
                 + "                     <p style=\"font: 12px sans-serif; font-weight: bold;\">Chamado aberto por:" + dados[0] + "</p></td>\n"
                 + "                <td style=\"text-align: right;\">\n"
-                + "                    <label style=\"font: 18px sans-serif; font-weight: bold;\">Status: <span style=\"color:green\">" + dados[1] + "</span></label>\n"
+                + "                    <label style=\"font: 18px sans-serif; font-weight: bold;\">Status:"+spanStatus+"</label>\n"
                 + "                </td>\n"
                 + "            </tr>\n"
                 + "        </table>\n"
-                + "        <div style=\"margin-left: 20px;margin-top: 10px;\">\n"
+                + "        <div>\n"
                 + "          <p>Unidade empresarial: <span style=\"color: blue\">" + dados[2] + "</span> </p>\n"
                 + "          <p>Responsável pela unidade: <span style=\"color: blue\">" + dados[3] + "</span></p>\n"
                 + "          <p>Data da abertura: <span style=\"color: blue\">" + dados[4] + "</span></p>\n"
                 + "          <p>Fornecedor: <span style=\"color: blue\">" + dados[5] + "</span></p>\n"
                 + "        </div>\n"
                 + "        <p align=\"center\" ><u><b>Descrição da ocorrência</b></u></p>\n"
-                + "        <div id=\"divDescricao\">\n" + dados[6]
+                + "        <div style=\"box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22); border: 2px solid  #07752e; padding: 10px; border-radius: 25px;\" id=\"divDescricao\">\n" + dados[6]
                 + "       </div>\n"
                 + "        <table  style=\"margin-top: 5px; width: 100%; background-color: #dddddd;\" cellpadding=\"0\" cellspace=\"0\">\n"
                 + "            <tr>\n"

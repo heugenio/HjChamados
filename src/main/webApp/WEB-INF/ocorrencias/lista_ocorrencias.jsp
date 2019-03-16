@@ -48,7 +48,7 @@
                             <td> <fmt:formatDate value="${ocorrencias.dataAbertura}" pattern="dd/MM/yyyy"/></td>
                             <td> <fmt:formatDate value="${ocorrencias.dataFechamento}" pattern="dd/MM/yyyy"/></td>
                             <c:if test = "${status == ocorrencias.status}">
-                                <td style="color: green"> ${ocorrencias.status}</td>
+                                <td style="color: green"><b>${ocorrencias.status}</b></td>
                             </c:if>
                             <td> ${ocorrencias.fornecedor.nome}</td>
                             <td> ${ocorrencias.tiposOcorrencia.descricao}</td>
@@ -60,8 +60,8 @@
                             </td>
                             
                             <td style="text-align: center"> 
-                                <a href="#" data-toggle="tooltip" title="Clique para editar" onclick="alterarOcorrencia(${ocorrencias.id})">
-                                    <i class="glyphicon glyphicon-pencil"></i>                                 
+                                <a href="#" data-toggle="tooltip" title="Clique para alterar o status" onclick="alterarStatus(${ocorrencias.id},'${ocorrencias.status}')">
+                                    <i class="glyphicon glyphicon-retweet"></i>                                 
                                 </a>
                             </td>
                             

@@ -22,5 +22,4 @@ public interface OcorrenciasRepository extends JpaRepository<Ocorrencias, Intege
     //lista por unidade
     @Query("select o from Ocorrencias o join o.fornecedor f where f.nome like %?1% and o.status = ?2 and o.unidadeEmpresarial = ?3")
     List<Ocorrencias> findByForStatusUnidade(String nome, String status, UnidadesEmpresariais oEmpresariais);
-
 }
