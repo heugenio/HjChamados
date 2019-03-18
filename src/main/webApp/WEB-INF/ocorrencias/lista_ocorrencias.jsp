@@ -27,13 +27,13 @@
                     <tr>
                         <th>Nome usuário</th>
                         <th>Data abertura</th>
-                        <th>Data fechamento</th>
+                        <th style="display: none;" id="dataFechamento">Data fechamento</th>
                         <th>Status</th>
                         <th>Fornecedor</th>
                         <th>Tipo da ocorrência</th>
                         <th>Unidade</th>
                         <th style="text-align: center">Ações</th>
-                        <th style="text-align: center">Alterar status</th>
+                        <th style="text-align: center">Finalizar ocorrência</th>
                     </tr>
                 </thead>
                 <!--Fim Cabecalho da Tabela-->  
@@ -46,23 +46,53 @@
                             
                             <td> ${ocorrencias.usuario.nome}</td> 
                             <td> <fmt:formatDate value="${ocorrencias.dataAbertura}" pattern="dd/MM/yyyy"/></td>
-                            <td> <fmt:formatDate value="${ocorrencias.dataFechamento}" pattern="dd/MM/yyyy"/></td>
-                            <c:if test = "${status == ocorrencias.status}">
-                                <td style="color: green"><b>${ocorrencias.status}</b></td>
-                            </c:if>
-                            <td> ${ocorrencias.fornecedor.nome}</td>
+                            
+                            <c:choose>
+                                <c:when test = "${ocorrencias.dataFechamento ne null}">
+                                    <td> <fmt:formatDate value="${ocorrencias.dataFechamento}" pattern="dd/MM/yyyy"/></td>
+                                </c:when>
+                            </c:choose>
+                                    
+                            <c:choose>
+                                <c:when test = "${status == ocorrencias.status}">
+                                    <td><span class="label label-success">${ocorrencias.status}</span></td>
+                                </c:when>
+                                <c:otherwise>
+                                    <td><span class="label label-danger">${ocorrencias.status}</span></td>
+                                </c:otherwise>
+                            </c:choose>
+                                
+                            <td id="fornNome"> ${ocorrencias.fornecedor.nome}</td>
                             <td> ${ocorrencias.tiposOcorrencia.descricao}</td>
-                            <td> ${ocorrencias.unidadeEmpresarial.nome}</td>
-                            <td style="text-align: center"> 
-                                <a href="#" data-toggle="tooltip" title="Clique para editar" onclick="alterarOcorrencia(${ocorrencias.id})">
-                                    <i class="glyphicon glyphicon-pencil"></i>                                 
-                                </a>
+                            <td id="uniNome"> ${ocorrencias.unidadeEmpresarial.nome}</td>
+                            <td style="text-align: center">
+                                <c:choose>
+                                    <c:when test = "${status == ocorrencias.status}" >
+                                        <a href="#" data-toggle="tooltip" title="Editar" onclick="alterarOcorrencia(${ocorrencias.id})">
+                                            <i class="glyphicon glyphicon-pencil"></i>                                 
+                                        </a>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <a data-toggle="tooltip" title="Não é possível editar"> <%--onclick="alterarOcorrencia(${ocorrencias.id})"--%>
+                                            <i class="glyphicon glyphicon-ban-circle"></i>                                 
+                                        </a>
+                                    </c:otherwise>
+                                </c:choose>
                             </td>
                             
-                            <td style="text-align: center"> 
-                                <a href="#" data-toggle="tooltip" title="Clique para alterar o status" onclick="alterarStatus(${ocorrencias.id},'${ocorrencias.status}')">
-                                    <i class="glyphicon glyphicon-retweet"></i>                                 
-                                </a>
+                            <td style="text-align: center">
+                                <c:choose>
+                                    <c:when test="${status eq ocorrencias.status}">
+                                        <a href="#" onclick="alterarStatus(${ocorrencias.id},'${ocorrencias.status}')" data-toggle="tooltip" title="Finalizar ocorrência"> <%--${ocorrencias.id},'${ocorrencias.status}'--%>
+                                            <i class="glyphicon glyphicon-retweet"></i>                                 
+                                        </a>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <a class="disabled" data-toggle="tooltip" title="Não é possível alterar o status"> <%-- onclick="alterarStatus(${ocorrencias.id},'${ocorrencias.status}')"--%>
+                                            <i class="glyphicon glyphicon-ban-circle"></i>                                 
+                                        </a>
+                                    </c:otherwise>
+                                </c:choose>
                             </td>
                             
                         </tr>

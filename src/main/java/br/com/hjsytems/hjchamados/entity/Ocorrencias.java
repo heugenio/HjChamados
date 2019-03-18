@@ -1,10 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package br.com.hjsytems.hjchamados.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
@@ -27,6 +24,7 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table (name = "OCORRENCIAS")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Ocorrencias implements Serializable{
     
     public static final long SerialVersionUID = 1L;
@@ -50,9 +48,7 @@ public class Ocorrencias implements Serializable{
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataAbertura;   
 
-    @Column(name = "OCRC_DT_FECHAMENTO")
-//    @NotNull
-//    @Basic(optional = false)
+    @Column(name = "OCRC_DT_FECHAMENTO", nullable = true)
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataFechamento;  
     
@@ -67,7 +63,7 @@ public class Ocorrencias implements Serializable{
     @JoinColumn(name = "UNEM_ID")
     @ManyToOne
     private UnidadesEmpresariais unidadeEmpresarial;
-     
+    
     @JoinColumn(name = "USRS_ID")
     @ManyToOne
     private Usuarios usuario;

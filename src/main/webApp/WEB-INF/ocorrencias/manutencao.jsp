@@ -60,7 +60,7 @@
                                 <input type="radio" value="Aberto" id="aberto" name="toggle" checked> <span id="aberto" class="label-text">Aberto</span>
                             </label>  
                             <label style="color: #000" class="toggle">
-                                <input type="radio" value="Fechado" name="toggle"> <span class="label-text">Fechado</span>
+                                <input type="radio" value="Fechado" id="fechado" name="toggle"> <span class="label-text">Fechado</span>
                             </label>
                         </div>
                     </div>
