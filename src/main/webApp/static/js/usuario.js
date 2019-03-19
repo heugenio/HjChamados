@@ -43,11 +43,11 @@ function  salvar() {
                 });
 
                 if(status) {
-                    centralMensagemInfo(TipoMsg.SALVAR, "Cadastro de usuário", "Usuário cadastrado com sucesso!");
+                    centralMensagem(TipoMsg.SALVAR, "Cadastro de usuário", "Usuário cadastrado com sucesso!");
                 }
 
             }).fail(function (retorno) {
-                centralMensagemInfo(TipoMsg.ERRO, "Cadastro de usuário", retorno);
+                centralMensagem(TipoMsg.ERRO, "Cadastro de usuário", retorno);
             });
             
         }

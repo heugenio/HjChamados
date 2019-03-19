@@ -6,54 +6,65 @@
 /**
  * @param {Enum} TipoMsg 
  * @example TipoMsg === SALVAR {msg salvar === 1} TipoMsg === ERRO {msg de erro === 2}
- * @param {String} msgTitulo
- * @param {String} msgBody 
- * */
-function centralMensagemInfo(TipoMsg,msgTitulo,msgBody) {
-    if(TipoMsg === 1) {
-        $("#titulo").text(msgTitulo);
-        $("#corpo").text(msgBody);
-        $("#btn1").hide();
-        $("#btn2").html("Fechar");
-        $("#msg").modal("show");
-    } else if(TipoMsg === 2) {
-        $("#titulo").text(msgTitulo);
-        $("#corpo").text(msgBody);
-        $("#tipoMsgBgColor").addClass("modal-header bg-danger");
-        $("#btn1").hide();
-        $("#btn2").html("Fechar");
-        $("#msg").modal("show");
-    }
-}
-
-
-/**
- * @param {Enum} TipoMsg 
- * @example TipoMsg === SALVAR {msg salvar === 1} TipoMsg === ERRO {msg de erro === 2}
  * O parametro textBtn1 e textBtn2 é para mostrar o texto desejado nos btns
  * @param {String} msgTitulo
  * @param {String} msgBody
- * @param {String} textBtn1 
- * @param {String} textBtn2  
- * 
+ * @param {String} textoBtn1 
+ * @param {String} textoBtn2 
  * */
-function centralMensagem(TipoMsg,msgTitulo,msgBody,textBtn1,textBtn2) {
+function centralMensagem(TipoMsg,msgTitulo,msgBody,textoBtn1,textoBtn2) {
+    
+    $("#titulo").html(msgTitulo);
+    $("#corpo").html(msgBody);
+    
     if (TipoMsg === 1) {
-        $("#titulo").text(msgTitulo);
-        $("#corpo").text(msgBody);
-        if((textBtn1!==null && textBtn1!=="") && (textBtn2!==null && textBtn2!=="")) {
-            $("#btn1").html(textBtn1);
-            $("#btn2").html(textBtn2);
+
+        if((textoBtn1!==null && textoBtn1!=="" && typeof textoBtn1!=='undefined') && 
+          (textoBtn2!==null && textoBtn2!=="" && typeof textoBtn2!=='undefined')) {
+            
+            $("#tipoMsgBgColor").addClass("modal-header bg-warning");
+            $("#btn1").show();
+            $("#btn1").html(textoBtn1);
+            $("#btn2").html(textoBtn2);
+
+        } else {
+            $("#btn1").hide();
+            $("#btn2").html('Fechar');
         }
-        $("#msg").modal("show");
+        
+        $('#msg').modal('show');
+        
     } else if(TipoMsg === 2) {
-        $("#titulo").text(msgTitulo);
-        $("#corpo").text(msgBody);
-        if((textBtn1!==null && textBtn1!=="") && (textBtn2!==null && textBtn2!=="")) {
-            $("#btn1").html(textBtn1);
-            $("#btn2").html(textBtn2);
+
+        
+        $("#tipoMsgBgColor").addClass("modal-header bg-warning");
+        if((textoBtn1!==null && textoBtn1!=="") && (textoBtn2!==null && textoBtn2!=="")) {
+            $("#btn1").html(textoBtn1);
+            $("#btn2").html(textoBtn2);
+            
+
+        } else {
+            $("#btn1").hide();
+            $("#btn2").html('Fechar');
+
         }
-        $("#msg").modal("show");
+        $('#msg').modal('show');
+        
+    } else if(TipoMsg === 3) {
+
+        
+        $("#tipoMsgBgColor").addClass("modal-header bg-danger");
+        if((textoBtn1!==null && textoBtn1!=="") && (textoBtn2!==null && textoBtn2!=="")) {
+            $("#btn1").html(textoBtn1);
+            $("#btn2").html(textoBtn2);
+            
+
+        } else {
+            $("#btn1").hide();
+            $("#btn2").html('Fechar');
+
+        }
+        $('#msg').modal('show');
     }
     
 }

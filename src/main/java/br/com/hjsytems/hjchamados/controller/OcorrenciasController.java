@@ -2,15 +2,12 @@ package br.com.hjsytems.hjchamados.controller;
 
 import br.com.hjsystems.hjchamados.util.EnviaEmail;
 import br.com.hjsystems.hjchamados.util.PathPadrao;
-import br.com.hjsytems.hjchamados.entity.Fornecedor;
 import br.com.hjsytems.hjchamados.entity.Ocorrencias;
 import br.com.hjsytems.hjchamados.entity.TiposOcorrencia;
 import br.com.hjsytems.hjchamados.entity.Usuarios;
 import br.com.hjsytems.hjchamados.repository.FornecedorRepository;
 import br.com.hjsytems.hjchamados.repository.OcorrenciasRepository;
-import br.com.hjsytems.hjchamados.repository.TiposOcorrenciaRepository;
 import br.com.hjsytems.hjchamados.repository.UnidadesEmpresariaisRepository;
-import br.com.hjsytems.hjchamados.repository.UsuarioRepository;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -42,26 +39,21 @@ public class OcorrenciasController {
 
     @Autowired private OcorrenciasRepository iOcorrenciasRepository;
     @Autowired private UnidadesEmpresariaisRepository iUnidadesEmpresariaisRepository;
-    @Autowired private UsuarioRepository iUsuarioRepository;
-    @Autowired private TiposOcorrenciaRepository iTiposOcorrenciaRepository;
     @Autowired private FornecedorRepository iFornecedorRepository;
 
     private final String STATUS[] = {"Aberto", "Fechado"};
 
     @GetMapping
     public ModelAndView preparaEstadoInicial() {
-        //EnviaEmail.sendEmail("brunohallef@gmail.com", "Hallef", "Olá e-mail de teste!!! ", "Olá e-mail de teste!");
-        return new ModelAndView("ocorrencias/manutencao")
-                .addObject("listUnidadeEmpresariais", iUnidadesEmpresariaisRepository.findAll());
-        //.addObject("usuariologado","USUÁRIO-LOGADO");
+
+        return new ModelAndView("ocorrencias/manutencao").addObject("listUnidadeEmpresariais", iUnidadesEmpresariaisRepository.findAll());
+
     }
 
     @GetMapping(PathPadrao.NOVO)
     public ModelAndView novo() {
         return new ModelAndView("ocorrencias/form_ocorrencias")
-                //.addObject("listTiposOcorrencias", iTiposOcorrenciaRepository.findAll())
                 .addObject("listFornecedores", iFornecedorRepository.findAll())
-                //.addObject("listUsuarios",iUsuarioRepository.findAll());
                 .addObject("listUnidadeEmpresariais", iUnidadesEmpresariaisRepository.findAll());
     }
 
@@ -77,7 +69,6 @@ public class OcorrenciasController {
         oEOcorrencias.setStatus(STATUS[0]);
         oEOcorrencias.setUsuario(oEUsuarios);
         oEOcorrencias.setDataAbertura(removeTime(new Date()));
-        //oEOcorrencias.setDataFechamento(removeTime(new Date()));
 
         if (bindingResult.hasErrors()) {
             return new ResponseEntity<>("", HttpStatus.BAD_REQUEST);
@@ -85,10 +76,11 @@ public class OcorrenciasController {
         iOcorrenciasRepository.save(oEOcorrencias);
 
         List emais = new LinkedList();
-        //emais.add(oEUsuarios.getEmail());
-        //emais.add(oEOcorrencias.getFornecedor().getEmail());
-        //emais.add(oEOcorrencias.getFornecedor().getEmailAux());
-        emais.add("brunohallef@gmail.com");
+
+        emais.add(oEUsuarios.getEmail());
+        emais.add(oEOcorrencias.getFornecedor().getEmail());
+        if(oEOcorrencias.getFornecedor().getEmailAux()!=null)
+            emais.add(oEOcorrencias.getFornecedor().getEmailAux());
 
         Object dados[] = {
             oEUsuarios.getNome(),
@@ -106,14 +98,12 @@ public class OcorrenciasController {
     }
     
     @GetMapping("/updateStatusOcorrencia/{idOcorrencia}/{staOcorrencia}")
-    public ResponseEntity<Ocorrencias> updateStatus(@PathVariable Integer idOcorrencia, @PathVariable String staOcorrencia) {
+    public ResponseEntity<String> updateStatus(@PathVariable Integer idOcorrencia, @PathVariable String staOcorrencia) {
         
-        Ocorrencias oEOcorrencias = null;
-        
-        oEOcorrencias = iOcorrenciasRepository.getOne(idOcorrencia);
-        
+        Ocorrencias oEOcorrencias = iOcorrenciasRepository.getOne(idOcorrencia);
+        StringBuilder array = new StringBuilder();
+
         if ((idOcorrencia != null && idOcorrencia > 0) && staOcorrencia != null) {
-            
 
             if (staOcorrencia.equals(STATUS[0])) {
                 oEOcorrencias.setStatus(STATUS[1]);
@@ -121,19 +111,11 @@ public class OcorrenciasController {
             }
             iOcorrenciasRepository.save(oEOcorrencias);
 
-            //Heugenio	16/03/2019	16/03/2019	Aberto	Heugenio	Relatório de vendas	Loja de Teste
-            System.out.println(oEOcorrencias.getUsuario().getNome());
-            System.out.println(oEOcorrencias.getDataAbertura());
-            System.out.println(oEOcorrencias.getDataFechamento());
-            System.out.println(oEOcorrencias.getFornecedor().getNome());
-            System.out.println(oEOcorrencias.getDescricao());
-            System.out.println(oEOcorrencias.getUnidadeEmpresarial().getNome());
-
             List emais = new LinkedList();
-            //emais.add(oEUsuarios.getEmail());
-            //emais.add(oEOcorrencias.getFornecedor().getEmail());
-            //emais.add(oEOcorrencias.getFornecedor().getEmailAux());
-            emais.add("brunohallef@gmail.com");
+            emais.add(oEOcorrencias.getUsuario().getEmail());
+            emais.add(oEOcorrencias.getFornecedor().getEmail());
+            if(oEOcorrencias.getFornecedor().getEmailAux()!=null)
+                emais.add(oEOcorrencias.getFornecedor().getEmailAux());
 
             Object dados[] = {
                 oEOcorrencias.getUsuario().getNome(),
@@ -145,10 +127,21 @@ public class OcorrenciasController {
                 oEOcorrencias.getFornecedor().getNome(),
                 oEOcorrencias.getDescricao()
             };
-
-            //EnviaEmail.sendEmailHtml(emais, oEOcorrencias.getFornecedor().getNome(), "Chamado De Ocorrência!", corpoEmailHtml(dados));
+   
+            array.append("[");
+            array.append("\"").append(oEOcorrencias.getUsuario().getNome()).append("\"").append(",");
+            array.append("\"").append(new SimpleDateFormat("dd/MM/yyyy").format(oEOcorrencias.getDataAbertura())).append("\"").append(",");
+            array.append("\"").append(new SimpleDateFormat("dd/MM/yyyy").format(oEOcorrencias.getDataFechamento())).append("\"").append(",");
+            array.append("\"").append(oEOcorrencias.getStatus()).append("\"").append(",");
+            array.append("\"").append(oEOcorrencias.getFornecedor().getNome()).append("\"").append(",");
+            array.append("\"").append(oEOcorrencias.getTiposOcorrencia().getDescricao()).append("\"").append(",");
+            array.append("\"").append(oEOcorrencias.getUnidadeEmpresarial().getNome()).append("\"").append(",");
+            array.append("\"").append(oEOcorrencias.getUnidadeEmpresarial().getId()).append("\"");
+            array.append("]");
+            
+            EnviaEmail.sendEmailHtml(emais, oEOcorrencias.getFornecedor().getNome(), "Chamado De Ocorrência!", corpoEmailHtml(dados));
         }
-        return new ResponseEntity<>(oEOcorrencias, HttpStatus.OK);
+        return new ResponseEntity<>(array.toString(), HttpStatus.OK);
     }
 
     @GetMapping("/changeSelects/{id}")
@@ -186,9 +179,7 @@ public class OcorrenciasController {
         } else {
             spanStatus = "<span style=\"color:red\">"+dados[1]+"</span>";
         }
-        
-        System.out.println(dados.length);
-        
+
         if(dados.length == 7) {
         
             html = "<!DOCTYPE html>  <html lang=\"pt-BR\"> "

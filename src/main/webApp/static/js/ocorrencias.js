@@ -16,15 +16,11 @@ $(document).ready(function () {
         };
 
         $.get('ocorrencias/lista/', filtros, function (dados) {
-
             $('#conteudo').html(dados);
             if (status === "Fechado") {
                 $("#dataFechamento").show();
             }
         });
-
-
-
     });
 
     $('#btn-adcionar').click(function () {
@@ -69,12 +65,12 @@ function salvar() {
 
                 if (status) {
                     $("#div_gif").hide();
-                    centralMensagemInfo(TipoMsg.SALVAR, "Cadastro de ocorrências", "Ocorrência cadastrada com sucesso! E-mail enviado");
+                    centralMensagem(TipoMsg.SALVAR, "Cadastro de ocorrências", "Ocorrência cadastrada com sucesso! E-mail enviado");
                 }
 
             }).fail(function (retono) {
                 $("#div_gif").hide();
-                centralMensagemInfo(TipoMsg.ERRO, "Cadastro de ocorrências", "Um erro ocorreu! " + retono);
+                centralMensagem(TipoMsg.ERRO, "Cadastro de ocorrências", "Um erro ocorreu! " + retono);
             });
 
         }
@@ -160,33 +156,51 @@ function changeSelects(qualSelect) {
 
 function alterarStatus(idOcorrencia, staOcorrencia) {
 
-
-    centralMensagem(TipoMsg.SALVAR, "Manutenção de ocorrência", "Deseja finalizar a ocorrência?", "SIM", "NÃO");
+    centralMensagem(TipoMsg.SALVAR, "Manutenção de ocorrência", "Deseja finalizar a ocorrência?","SIM","NÃO");
 
     $("#btn1").click(function () {
+        
+        $("#btn1").prop("disabled", true);
+        
+        $.get("ocorrencias/updateStatusOcorrencia/" + parseInt(idOcorrencia) + "/" + staOcorrencia).done(function (retorno, status, jqxhr) {
+            
+            if(status) {
+                
+                var array = JSON.parse(retorno);
 
-//        var fornNome = $('#fornNome').html();
-//        var uniNome = $("#uniNome").html();
-//        $("#fechado").prop("checked", true);
-//        var status = $('input[name=toggle]:checked').val();
-//
-//        var filtros = {
-//            "fornecedor": fornNome,
-//            "unidades": uniNome,
-//            "status": status
-//        };
+                $('#tbOcorrencias tbody > tr').remove();
+                
 
-        $.get("ocorrencias/updateStatusOcorrencia/" + parseInt(idOcorrencia) + "/" + staOcorrencia).done(function (retono, status, jqxhr) {
-            if (status) {
-                console.log(retono);
+                $("#fechado").prop("checked", true);
+                var status = $('input[name=toggle]:checked').val();
+                $("#dataFechamento").show();
+                
+                $("#tbOcorrencias").addClass("table table-bordered table-condensed table-hover");
+                
+                var dados = "<tr>"+ "<td>"+ array[0] +"</td>"+ 
+                                    "<td>"+ array[1] +"</td>"+ 
+                                    "<td>"+array[2]  +"</td>"+ 
+                                    "<td><span class='label label-danger'>"+array[3]+"</span></td>"+
+                                    "<td>"+array[4]+"</td>"+
+                                    "<td>"+array[5]+"</td>"+
+                                    "<td>"+array[6]+"</td>"+
+                                    "<td style='text-align: center'><a class='disabled'><i class='glyphicon glyphicon-ban-circle'></i></a></td>"+
+                                    "<td style='text-align: center'><a class='disabled'><i class='glyphicon glyphicon-ban-circle'></i></a></td>"+
+                        
+                                    +"</tr>";
+                
+                
+                $("#tbOcorrencias tbody").append(dados);
+               
+                $("#btn1").prop("disabled", false);
+                $('#msg').modal('hide');
+                
             }
-            $('#msg').modal('hide');
-            $("#btn1").prop("disabled", false);
 
         }).fail(function (retorno) {
             $('#msg').modal('hide');
             $("#btn1").prop("disabled", false);
-            centralMensagemInfo(TipoMsg.ERRO, "Cadastro de ocorrências", "Um erro ocorreu! " + retorno);
+            centralMensagem(TipoMsg.ERRO, "Cadastro de ocorrências", "Um erro ocorreu! " + retorno);
         });
         
     });

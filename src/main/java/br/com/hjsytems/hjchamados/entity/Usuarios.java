@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package br.com.hjsytems.hjchamados.entity;
 
 import java.io.Serializable;
@@ -55,7 +51,7 @@ public static final long SerialVersionUID = 1L;
     @JoinColumn(name = "UNEM_ID")
     @ManyToOne
     private UnidadesEmpresariais unidadeEmpresarial;
-
+    
     public Usuarios() {
     }
 
@@ -106,6 +102,7 @@ public static final long SerialVersionUID = 1L;
     public void setUnidadeEmpresarial(UnidadesEmpresariais unidadeEmpresarial) {
         this.unidadeEmpresarial = unidadeEmpresarial;
     }
+   
 
     @Override
     public int hashCode() {
@@ -126,11 +123,7 @@ public static final long SerialVersionUID = 1L;
             return false;
         }
         final Usuarios other = (Usuarios) obj;
-        if (!Objects.equals(this.id, other.id)) {
-            return false;
-        }
-        return true;
+        return Objects.equals(this.id, other.id);
     }
-    
-    
+
 }

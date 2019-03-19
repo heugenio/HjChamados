@@ -21,7 +21,7 @@
 
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div style="margin-top: 9px" class="table-responsive" >
-            <table class="table table-bordered table-condensed table-hover">
+            <table id="tbOcorrencias" class="table table-bordered table-condensed table-hover">
                 <!--Cabecalho da Tabela-->  
                 <thead>
                     <tr>
@@ -47,12 +47,9 @@
                             <td> ${ocorrencias.usuario.nome}</td> 
                             <td> <fmt:formatDate value="${ocorrencias.dataAbertura}" pattern="dd/MM/yyyy"/></td>
                             
-                            <c:choose>
-                                <c:when test = "${ocorrencias.dataFechamento ne null}">
-                                    <td> <fmt:formatDate value="${ocorrencias.dataFechamento}" pattern="dd/MM/yyyy"/></td>
-                                </c:when>
-                            </c:choose>
-                                    
+                            <c:if test="${ocorrencias.dataFechamento ne null}">
+                                <td> <fmt:formatDate value="${ocorrencias.dataFechamento}" pattern="dd/MM/yyyy"/></td>
+                            </c:if>        
                             <c:choose>
                                 <c:when test = "${status == ocorrencias.status}">
                                     <td><span class="label label-success">${ocorrencias.status}</span></td>
@@ -84,12 +81,12 @@
                                 <c:choose>
                                     <c:when test="${status eq ocorrencias.status}">
                                         <a href="#" onclick="alterarStatus(${ocorrencias.id},'${ocorrencias.status}')" data-toggle="tooltip" title="Finalizar ocorrência"> <%--${ocorrencias.id},'${ocorrencias.status}'--%>
-                                            <i class="glyphicon glyphicon-retweet"></i>                                 
+                                            <i class="glyphicon glyphicon-retweet"></i>
                                         </a>
                                     </c:when>
                                     <c:otherwise>
                                         <a class="disabled" data-toggle="tooltip" title="Não é possível alterar o status"> <%-- onclick="alterarStatus(${ocorrencias.id},'${ocorrencias.status}')"--%>
-                                            <i class="glyphicon glyphicon-ban-circle"></i>                                 
+                                            <i class="glyphicon glyphicon-ban-circle"></i>
                                         </a>
                                     </c:otherwise>
                                 </c:choose>
@@ -101,5 +98,5 @@
                 </tbody>
             </table>
         </div>
-    </div>
+    </div>  
 </html>
