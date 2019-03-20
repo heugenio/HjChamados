@@ -38,7 +38,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="brand" href="index.jsp"><img class="logo" src="${path}/static/imagens/sys200.png" width="100" alt="SysWeb Conferência"></a>
+                    <a class="brand" href=${path}><img class="logo" src="${path}/static/imagens/sys200.png" width="100" alt="SysWeb Conferência"></a>
                 </div>
                 <div class="collapse navbar-collapse js-navbar-collapse">
                     <ul class="nav navbar-nav">
@@ -62,7 +62,7 @@
                                 </li>
                             </ul>	
                         </li>
-                        <li><a href="ServSair">Sair</a></li>
+                        <li><a href="${path}/logout">Sair</a></li>
                     </ul>	
                 </div><!-- /.nav-collapse -->
             </nav>

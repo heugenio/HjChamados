@@ -111,11 +111,11 @@
                         <form method="POST" action="login">
                             <div class="form-group">
                                 <i class="glyphicon glyphicon-user"></i>
-                                <input type="text" name="user" id="user" class="form-control" placeholder="Username" required="required">
+                                <input type="text" name="username" class="form-control" placeholder="Usuario" required="required">
                             </div>
                             <div class="form-group">
                                 <i class="glyphicon glyphicon-lock"></i>
-                                <input type="password" name="password" id="password" class="form-control" placeholder="Password" required="required">					
+                                <input type="password" name="password" class="form-control" placeholder="Senha" required="required">					
                             </div>
                             <div class="form-group">
                                 <input type="submit" class="btn btn-primary btn-block btn-lg" value="Login">

@@ -49,11 +49,34 @@
                         <c:forEach items="${listaUnidades}" var="unidade">
                             <option value="${unidade.id}" <c:if test="${usuario.unidadeEmpresarial eq unidade}"> selected="" </c:if>  > ${unidade.nome} </option>                            
                         </c:forEach>
-
                     </select>
                 </div>
-            </div>    
+            </div>
+                   
+                    <div class="form-inline">
+                        <div class="row" >
+                        <label  class="col-sm-2 control-label">Grupo</label>
 
+                        <div class="form-check">
+                            <label>
+                                <input type="checkbox" name="check" checked> <span class="label-text">Admin</span>
+                            </label>
+                        </div>
+
+                        <div class="form-check">
+                            <label>
+                                <input type="checkbox" name="check"> <span class="label-text">Usuário</span>
+                            </label>
+                        </div>
+
+                        <div class="form-check">
+                            <label>
+                                <input type="checkbox" name="check"> <span class="label-text">Fornecedor</span>
+                            </label>
+                        </div>
+                        </div>    
+                    </div>
+                
             <div id="camposNaoPreenchidos" style="display:none" class="alert alert-danger" role="alert">
                 <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
                 <span class="sr-only">Error:</span>
