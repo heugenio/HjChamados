@@ -2,6 +2,7 @@
 package br.com.hjsytems.hjchamados.entity;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -10,6 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -22,7 +25,7 @@ import javax.validation.constraints.NotNull;
 @Table(name = "USUARIOS")
 public class Usuarios implements Serializable{
   
-public static final long SerialVersionUID = 1L;
+
     @Id
     @Column(name = "USRS_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -51,6 +54,11 @@ public static final long SerialVersionUID = 1L;
     @JoinColumn(name = "UNEM_ID")
     @ManyToOne
     private UnidadesEmpresariais unidadeEmpresarial;
+    
+    
+    @ManyToMany
+    @JoinTable(name = "usuario_grupo", joinColumns = @JoinColumn(name = "codigo_usuario"), inverseJoinColumns = @JoinColumn(name = "codigo_grupo"))
+    private List<Grupo> grupos;
     
     public Usuarios() {
     }
@@ -102,7 +110,14 @@ public static final long SerialVersionUID = 1L;
     public void setUnidadeEmpresarial(UnidadesEmpresariais unidadeEmpresarial) {
         this.unidadeEmpresarial = unidadeEmpresarial;
     }
-   
+    
+    public List<Grupo> getGrupos() {
+        return grupos;
+    }
+
+    public void setGrupos(List<Grupo> grupos) {
+        this.grupos = grupos;
+    }
 
     @Override
     public int hashCode() {
@@ -125,5 +140,4 @@ public static final long SerialVersionUID = 1L;
         final Usuarios other = (Usuarios) obj;
         return Objects.equals(this.id, other.id);
     }
-
 }
