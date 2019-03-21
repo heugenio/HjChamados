@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -38,7 +37,7 @@ public class AppUserDetailsService implements UserDetailsService {
         Set<SimpleGrantedAuthority> authoritys = new HashSet<>();
         
         List<String> listaPermissoes = iUsuarioRepository.permissoes(oEUsuarios);
-        listaPermissoes.forEach(p -> authoritys.add(new SimpleGrantedAuthority(p.toUpperCase())));
+        listaPermissoes.forEach(p -> authoritys.add(new SimpleGrantedAuthority("ROLE_"+p.toUpperCase())));
 
         return authoritys;
     }

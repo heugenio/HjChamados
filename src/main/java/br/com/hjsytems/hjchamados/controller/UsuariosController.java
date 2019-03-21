@@ -1,13 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package br.com.hjsytems.hjchamados.controller;
 
+import br.com.hjsytems.hjchamados.entity.Grupo;
 import br.com.hjsytems.hjchamados.entity.Usuarios;
+import br.com.hjsytems.hjchamados.repository.GrupoRepository;
 import br.com.hjsytems.hjchamados.repository.UnidadesEmpresariaisRepository;
 import br.com.hjsytems.hjchamados.repository.UsuarioRepository;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +32,7 @@ public class UsuariosController {
 
     @Autowired private UsuarioRepository usuarios;
     @Autowired private UnidadesEmpresariaisRepository unidades;
+    @Autowired private GrupoRepository iGrupoRepository;
 
     @GetMapping
     public ModelAndView abrir() {
@@ -47,7 +48,9 @@ public class UsuariosController {
 
     @GetMapping("/novo")
     public ModelAndView novo() {
-        return new ModelAndView("usuarios/form_usuario").addObject("listaUnidades", unidades.findAll());
+        return new ModelAndView("usuarios/form_usuario")
+                .addObject("listaUnidades", unidades.findAll())
+                .addObject("listGrupos",iGrupoRepository.findAll());
     }
 
     @GetMapping("/alterar/{id}")
@@ -57,13 +60,25 @@ public class UsuariosController {
                   .addObject("listaUnidades", unidades.findAll());
     }
 
-    @PostMapping("/salvar")
-    public ResponseEntity<String> salvar(@Valid @ModelAttribute Usuarios user, BindingResult bindingResult) {
+    @PostMapping("/salvar/{id}")
+    public ResponseEntity<String> salvar(@Valid @ModelAttribute Usuarios oEUsuarios,@PathVariable Integer[] id, BindingResult bindingResult) {
+        
+        List<Grupo> grupos = new LinkedList<>();
+        Grupo oEGrupo;
+        
+        for (Integer ids : id) {
+            oEGrupo = new Grupo();
+            oEGrupo.setCodigo(Long.valueOf(ids));
+            grupos.add(oEGrupo);
+        }
+        
+        oEUsuarios.setGrupos(grupos);
         
         if (bindingResult.hasErrors()) {
             return new ResponseEntity<>("", HttpStatus.BAD_REQUEST);
         }
-        usuarios.save(user);
+        
+        usuarios.save(oEUsuarios);
         return new ResponseEntity<>("", HttpStatus.OK);
     }
 

@@ -9,10 +9,13 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
 <fmt:setLocale value = "pt_BR"/>
 <c:set var="path" value="${pageContext.request.contextPath}" scope="request" />
 <jsp:include page="../fragments/cabecallho.jsp"/>
 <jsp:include page="../fragments/mensagem.jsp"/>
+
 
 <style>
     #alertStatus {
@@ -32,7 +35,9 @@
                     <strong>Manutenção de Ocorrências</strong> 
                 </div> 
                 <div class="col-xs-12 col-sm-12 col-md-6">
-                    <button id="btn-adcionar" class="btn btn-default pull-right btn-sm">Adicionar</button> 
+                    <sec:authorize access="hasRole('CADASTRAR_USUARIO')">
+                        <button id="btn-adcionar" class="btn btn-default pull-right btn-sm">Adicionar</button>
+                    </sec:authorize>
                 </div>                 
                 <div class="clearfix"></div>
             </div> 

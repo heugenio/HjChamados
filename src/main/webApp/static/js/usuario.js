@@ -30,11 +30,16 @@ function  salvar() {
     
     $('#btn-salvar').click(function () {
         
-        var user = $("#form-cad-user").serialize();
+        var user = $("#form-cad-user").serializeArray();
+        
+        var grupos = [];
+        $('#listaBox input:checked').each(function() {
+            grupos.push(parseInt(this.value));
+        });
         
         if(validarUsuario()) {
         
-            $.post('usuario/salvar', user).done(function (retorno, status, jqxhr) { 
+            $.post('usuario/salvar/'+grupos, user).done(function (retorno, status, jqxhr) { 
 
                 $('#modal-user').modal('hide');
 

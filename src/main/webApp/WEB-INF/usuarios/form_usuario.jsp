@@ -52,30 +52,27 @@
                     </select>
                 </div>
             </div>
-                   
-                    <div class="form-inline">
-                        <div class="row" >
-                        <label  class="col-sm-2 control-label">Grupo</label>
-
-                        <div class="form-check">
-                            <label>
-                                <input type="checkbox" name="check" checked> <span class="label-text">Admin</span>
-                            </label>
-                        </div>
-
-                        <div class="form-check">
-                            <label>
-                                <input type="checkbox" name="check"> <span class="label-text">Usuário</span>
-                            </label>
-                        </div>
-
-                        <div class="form-check">
-                            <label>
-                                <input type="checkbox" name="check"> <span class="label-text">Fornecedor</span>
-                            </label>
-                        </div>
-                        </div>    
+                
+            <div class="container">
+                
+                <div class="form-inline">
+             
+                    <div class="form-group">
+                        <label class="col-md-12 ">Permissão</label>
+                        <label class="col-md-11 "></label>
                     </div>
+                    
+                    <div id="listaBox" >
+                        <input type="hidden" name="grupos" />
+                        <c:forEach items="${listGrupos}" var="grupos">
+                            <label>
+                                <input type="checkbox" value="${grupos.codigo}" ><span class="label-text">${grupos.nome}</span>
+                            </label>
+                        </c:forEach>
+                    </div>    
+                </div>
+                
+            </div>
                 
             <div id="camposNaoPreenchidos" style="display:none" class="alert alert-danger" role="alert">
                 <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
@@ -86,6 +83,9 @@
                 <p id="campoPassword"></p>
             </div>
                 
-        </form>
-    </div>        
-</div>    
+        </form> 
+       
+    </div>
+      
+</div>
+                
