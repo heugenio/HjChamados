@@ -2,7 +2,9 @@
 /* global TipoMsg */
 
 $(document).ready(function () {
-
+    
+    
+    
     $('#btn-search').click(function () {
 
         var fornecedor = $('#input-fornecedor').val();
@@ -28,6 +30,8 @@ $(document).ready(function () {
         $.get('ocorrencias/novo', function (dados) {
             $('#conteudo-modal').html(dados);
         });
+        
+        
     });
     salvar();
 });
@@ -69,8 +73,11 @@ function salvar() {
                 }
 
             }).fail(function (retono) {
+                //console.log(retono.responseJSON.message);
                 $("#div_gif").hide();
-                centralMensagem(TipoMsg.ERRO, "Cadastro de ocorrências", "Um erro ocorreu! " + retono);
+                $("#corpo").css('color','red');
+                $('#modal-ocorrencias').modal('hide');
+                centralMensagem(TipoMsg.ERRO, "Cadastro de ocorrências", "Um erro ocorreu (" + retono.responseJSON.message+")");
             });
 
         }

@@ -23,6 +23,23 @@ function alteraUser(id) {
     $('#modal-user').modal('show');
     $.get('usuario/alterar/' + id, function (dados) {
         $('#conteudo-modal').html(dados);
+        
+        $.get('usuario/nomeGrupo/'+id,function (dados) {
+            console.log(dados);
+            
+            for(i=0;i<dados.length;i++) {
+                console.log(dados[i].codigo+" "+dados[i].nome);
+                $("#" + dados[i].nome).prop('checked', true);
+            }
+            
+//            $("#listaBox input:checkbox").each(function (i) {
+//                if ((parseInt(dados[i].codigo) === parseInt(this.value)) && (dados[i].nome.toString() === this.id.toString())) {
+//                    console.log(dados[i].codigo + " " + dados[i].nome);
+//                    $("#" + this.id.toString()).prop('checked', true);
+//                }
+//            });
+        });
+        
     });
 }
 

@@ -66,7 +66,7 @@
                         <input type="hidden" name="grupos" />
                         <c:forEach items="${listGrupos}" var="grupos">
                             <label>
-                                <input type="checkbox" value="${grupos.codigo}" ><span class="label-text">${grupos.nome}</span>
+                                <input type="checkbox" value="${grupos.codigo}" id="${grupos.nome}" ><span class="label-text">${grupos.nome}</span>
                             </label>
                         </c:forEach>
                     </div>    

@@ -49,7 +49,7 @@ public class EnviaEmail {
     }
     
 
-    public static void sendEmailHtml(List<String> emails, String nomeDest, String assunto, String msg) {
+    public static void sendEmailHtml(List<String> emails, String nomeDest, String assunto, String msg) throws Exception {
         
         HtmlEmail email = new HtmlEmail();
         JTextArea jTaLog = new JTextArea();

@@ -57,7 +57,8 @@ public class UsuariosController {
     public ModelAndView alterar(@PathVariable int id) {
         return new ModelAndView("usuarios/form_usuario")
                   .addObject("usuario", usuarios.getOne(id))
-                  .addObject("listaUnidades", unidades.findAll());
+                  .addObject("listaUnidades", unidades.findAll())
+                  .addObject("listGrupos",iGrupoRepository.findAll());
     }
 
     @PostMapping("/salvar/{id}")
@@ -80,6 +81,11 @@ public class UsuariosController {
         
         usuarios.save(oEUsuarios);
         return new ResponseEntity<>("", HttpStatus.OK);
+    }
+    
+    @GetMapping("/nomeGrupo/{idUsuario}")
+    public ResponseEntity<List<Grupo>> nomeGrupo(@PathVariable Integer idUsuario) {
+        return new ResponseEntity<>(usuarios.getOne(idUsuario).getGrupos(),HttpStatus.OK);
     }
 
 }

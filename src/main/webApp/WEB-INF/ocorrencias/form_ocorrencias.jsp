@@ -27,7 +27,16 @@
                     <div class="form-group">
                         <label for="usuario" class="col-sm-2 control-label">Usuários</label>
                         <div class="col-sm-10">
-                            <input type="text" title="Usuário logado" id="usuario" value="${ocorrencia.usuario.nome}" class="form-control" readonly="false" />
+                            <c:choose>
+                                <c:when test="${ocorrencia eq null}">
+                                    <input type="hidden" name="usuario" value="${usuario.id}" />
+                                    <input type="text" title="Usuário logado"  value="${usuario.nome}" readonly class="form-control" />
+                                </c:when>
+                                <c:otherwise>
+                                    <input type="hidden" name="usuario" value="${ocorrencia.usuario.id}" />
+                                    <input type="text" title="Usuário logado"  value="${ocorrencia.usuario.nome}" readonly class="form-control" />
+                                </c:otherwise>
+                            </c:choose>
                         </div>
                     </div>
                     
@@ -76,9 +85,7 @@
                         
                         
                     <div id="camposNaoPreenchidos" style="display:none" class="alert alert-danger" role="alert">
-                        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-                        <span class="sr-only">Error:</span>
-                        <p id="pMsg"></p>
+                        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"><label id="pMsg"></label></span>
                     </div>
                         
                     <div class="form-group">

@@ -45,11 +45,18 @@
             <div class="panel-body">
                 
                 <div class="row">
-                    
-                    <div class="col-xs-5"><!--col-xs-12 col-sm-12 col-md-6 -->
-                        <input id="input-fornecedor" placeholder="Fornecedor" class="form-control" type="text"/>
-                    </div>  
-
+                    <c:choose>
+                        <c:when test="${usuario ne null}">
+                            <div class="col-xs-5">
+                                <input id="input-fornecedor" value="${usuario.nome}" readonly placeholder="Fornecedor" class="form-control" type="text"/>
+                            </div>
+                        </c:when>
+                        <c:otherwise>
+                            <div class="col-xs-5">
+                                <input id="input-fornecedor" placeholder="Fornecedor" class="form-control" type="text"/>
+                            </div>
+                        </c:otherwise>
+                    </c:choose>
                     <div class="col-xs-3">
                         <select id="unidades" class="form-control">
                             <option value="" disabled selected>Unidades</option>

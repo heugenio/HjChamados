@@ -37,8 +37,9 @@ function centralMensagem(TipoMsg,msgTitulo,msgBody,textoBtn1,textoBtn2) {
     } else if(TipoMsg === 2) {
 
         
-        $("#tipoMsgBgColor").addClass("modal-header bg-warning");
-        if((textoBtn1!==null && textoBtn1!=="") && (textoBtn2!==null && textoBtn2!=="")) {
+        $("#tipoMsgBgColor").addClass("modal-header bg-danger");
+        if((textoBtn1!==null && textoBtn1!=="" && typeof textoBtn1!=='undefined') && 
+          (textoBtn2!==null && textoBtn2!=="" && typeof textoBtn2!=='undefined')) {
             $("#btn1").html(textoBtn1);
             $("#btn2").html(textoBtn2);
             
@@ -54,7 +55,8 @@ function centralMensagem(TipoMsg,msgTitulo,msgBody,textoBtn1,textoBtn2) {
 
         
         $("#tipoMsgBgColor").addClass("modal-header bg-danger");
-        if((textoBtn1!==null && textoBtn1!=="") && (textoBtn2!==null && textoBtn2!=="")) {
+        if((textoBtn1!==null && textoBtn1!=="" && typeof textoBtn1!=='undefined') && 
+          (textoBtn2!==null && textoBtn2!=="" && typeof textoBtn2!=='undefined')) {
             $("#btn1").html(textoBtn1);
             $("#btn2").html(textoBtn2);
             

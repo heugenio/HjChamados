@@ -1,5 +1,6 @@
 package br.com.hjsytems.hjchamados.controller;
 
+import br.com.hjsystems.hjchamados.security.UsuarioSistema;
 import br.com.hjsystems.hjchamados.util.EnviaEmail;
 import br.com.hjsystems.hjchamados.util.PathPadrao;
 import br.com.hjsytems.hjchamados.entity.Ocorrencias;
@@ -8,6 +9,7 @@ import br.com.hjsytems.hjchamados.entity.Usuarios;
 import br.com.hjsytems.hjchamados.repository.FornecedorRepository;
 import br.com.hjsytems.hjchamados.repository.OcorrenciasRepository;
 import br.com.hjsytems.hjchamados.repository.UnidadesEmpresariaisRepository;
+import br.com.hjsytems.hjchamados.repository.UsuarioRepository;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -20,6 +22,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,42 +43,46 @@ public class OcorrenciasController {
     @Autowired private OcorrenciasRepository iOcorrenciasRepository;
     @Autowired private UnidadesEmpresariaisRepository iUnidadesEmpresariaisRepository;
     @Autowired private FornecedorRepository iFornecedorRepository;
+    @Autowired private UsuarioRepository iUsuarioRepository;
 
     private final String STATUS[] = {"Aberto", "Fechado"};
 
     @GetMapping
-    public ModelAndView preparaEstadoInicial() {
-
+    public ModelAndView preparaEstadoInicial(@AuthenticationPrincipal UsuarioSistema usuarioSistema) {
+        Usuarios oEUsuarios = iUsuarioRepository.getOne(usuarioSistema.getoEUsuarios().getId());
+        
+        if(oEUsuarios.getGrupos().size() == 1 && oEUsuarios.getGrupos().get(0).getNome().equalsIgnoreCase("Fornecedor")) {
+            return new ModelAndView("ocorrencias/manutencao")
+                    .addObject("listUnidadeEmpresariais", iUnidadesEmpresariaisRepository.findAll())
+                    .addObject("usuario",usuarioSistema.getoEUsuarios());
+        }
+        
         return new ModelAndView("ocorrencias/manutencao").addObject("listUnidadeEmpresariais", iUnidadesEmpresariaisRepository.findAll());
-
     }
 
     @GetMapping(PathPadrao.NOVO)
-    public ModelAndView novo() {
+        public ModelAndView novo(@AuthenticationPrincipal UsuarioSistema usuarioSistema) {
         return new ModelAndView("ocorrencias/form_ocorrencias")
                 .addObject("listFornecedores", iFornecedorRepository.findAll())
-                .addObject("listUnidadeEmpresariais", iUnidadesEmpresariaisRepository.findAll());
+                .addObject("listUnidadeEmpresariais", iUnidadesEmpresariaisRepository.findAll())
+                .addObject("usuario",usuarioSistema.getoEUsuarios());
+                
     }
 
     @PostMapping(PathPadrao.SALVAR)
     public ResponseEntity<String> salvar(@Valid @ModelAttribute Ocorrencias oEOcorrencias, BindingResult bindingResult) {
-        Usuarios oEUsuarios = new Usuarios();
-        oEUsuarios.setId(63);
-        oEUsuarios.setNome("Heugenio");
-        oEUsuarios.setLogin("123");
-        oEUsuarios.setEmail("heugenio@hjsystems.com.br");
-        oEUsuarios.setSenha("123");
+        Usuarios oEUsuarios = oEOcorrencias.getUsuario();
         oEUsuarios.setUnidadeEmpresarial(oEOcorrencias.getUnidadeEmpresarial());
         oEOcorrencias.setStatus(STATUS[0]);
         oEOcorrencias.setUsuario(oEUsuarios);
         oEOcorrencias.setDataAbertura(removeTime(new Date()));
 
         if (bindingResult.hasErrors()) {
-            return new ResponseEntity<>("", HttpStatus.BAD_REQUEST);
+            //List<String> errors = bindingResult.getAllErrors().stream().map(e -> e.getDefaultMessage()).collect(Collectors.toList());
+            return new ResponseEntity<>(bindingResult.toString(), HttpStatus.BAD_REQUEST);
         }
-        iOcorrenciasRepository.save(oEOcorrencias);
 
-        List emais = new LinkedList();
+        List<String> emais = new LinkedList();
 
         emais.add(oEUsuarios.getEmail());
         emais.add(oEOcorrencias.getFornecedor().getEmail());
@@ -91,8 +98,12 @@ public class OcorrenciasController {
             oEOcorrencias.getFornecedor().getNome(),
             oEOcorrencias.getDescricao()
         };
-
-        EnviaEmail.sendEmailHtml(emais, oEOcorrencias.getFornecedor().getNome(), "Chamado De Ocorrência!", corpoEmailHtml(dados));
+        try {
+            EnviaEmail.sendEmailHtml(emais, oEOcorrencias.getFornecedor().getNome(), "Chamado De Ocorrência!", corpoEmailHtml(dados));
+            iOcorrenciasRepository.save(oEOcorrencias);
+        }catch(Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        } 
 
         return new ResponseEntity<>("", HttpStatus.OK);
     }
@@ -109,9 +120,8 @@ public class OcorrenciasController {
                 oEOcorrencias.setStatus(STATUS[1]);
                 oEOcorrencias.setDataFechamento(removeTime(new Date()));
             }
-            iOcorrenciasRepository.save(oEOcorrencias);
-
-            List emais = new LinkedList();
+            
+            List<String> emais = new LinkedList();
             emais.add(oEOcorrencias.getUsuario().getEmail());
             emais.add(oEOcorrencias.getFornecedor().getEmail());
             if(oEOcorrencias.getFornecedor().getEmailAux()!=null)
@@ -138,8 +148,12 @@ public class OcorrenciasController {
             array.append("\"").append(oEOcorrencias.getUnidadeEmpresarial().getNome()).append("\"").append(",");
             array.append("\"").append(oEOcorrencias.getUnidadeEmpresarial().getId()).append("\"");
             array.append("]");
-            
-            EnviaEmail.sendEmailHtml(emais, oEOcorrencias.getFornecedor().getNome(), "Chamado De Ocorrência!", corpoEmailHtml(dados));
+            try {
+                EnviaEmail.sendEmailHtml(emais, oEOcorrencias.getFornecedor().getNome(), "Chamado De Ocorrência!", corpoEmailHtml(dados));
+                iOcorrenciasRepository.save(oEOcorrencias);
+            }catch(Exception e) {
+                return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+            } 
         }
         return new ResponseEntity<>(array.toString(), HttpStatus.OK);
     }
