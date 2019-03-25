@@ -72,6 +72,10 @@ function alteraFornecedor(id) {
             tiposOcorerencias = fornecedor.listTiposOcorrencias;
             initDataTable(tiposOcorerencias);
         });
+        
+        
+        popularSelectUsuarioFornecedor();
+        
     });
 }
 
@@ -86,6 +90,9 @@ function salvar() {
         for(i=0; i<tiposOcorerencias.length; i++) {
             idTipod.push(tiposOcorerencias[i].id);
         }
+        var somenteNome = $("#usuarioFornecedor option:selected").text();
+        //var resultado = somenteNome.substring(0,somenteNome.indexOf("-"));
+        fornecedor[1].value = somenteNome;
         fornecedor[8].value = idTipod;
         
         if (validarCampos(fornecedor)) {
@@ -214,5 +221,26 @@ function removerTipoOcorrencia() {
         tiposOcorerencias = arrayTipoB;
         
         initDataTable(tiposOcorerencias);
+    });
+}
+
+
+function popularSelectUsuarioFornecedor() {
+    var nomeForn = $("#tdNomeFornecedor").text();
+    //var idForn = $("#tdIdFornecedor").text();
+
+    $.get('fornecedor/popularSelectUsuForn', function (listaTipoOcorrencia) {
+        var selectbox = $('#usuarioFornecedor');
+        if (listaTipoOcorrencia !== null && listaTipoOcorrencia.length > 0) {
+            selectbox.find('option').remove();
+            $('<option>').text(nomeForn).appendTo(selectbox);//.val(idForn)
+            $.each(listaTipoOcorrencia, function (i, d) {
+                if(!nomeForn.includes(d.nomeUsuario.toString())) {//parseInt(idForn)!==parseInt(parseInt(d.idUsuario))) && 
+                    $('<option>').val(d.idUsuario).text(d.nomeUsuario).appendTo(selectbox);
+                }
+            });
+            selectbox.removeAttr("disabled");
+        }
+
     });
 }

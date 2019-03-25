@@ -1,10 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.com.hjsytems.hjchamados.controller;
 
+import br.com.hjsystems.hjchamados.dao.ListaUsuarioFornecedorDao;
 import br.com.hjsystems.hjchamados.util.PathPadrao;
 import br.com.hjsytems.hjchamados.entity.Fornecedor;
 import br.com.hjsytems.hjchamados.repository.FornecedorRepository;
@@ -33,6 +29,7 @@ public class FornecedorController {
 
     @Autowired private FornecedorRepository iFornecedorRepository;
     @Autowired private TiposOcorrenciaRepository iTiposOcorrenciaRepository;
+    @Autowired private ListaUsuarioFornecedorDao usuarioFornecedorDao;
     
     @GetMapping
     public ModelAndView abrir() {
@@ -41,7 +38,9 @@ public class FornecedorController {
     
     @GetMapping(PathPadrao.NOVO)
     public ModelAndView novo() {
-        return new ModelAndView("fornecedor/form_fornecedor").addObject("listTiposOcorrencias", iTiposOcorrenciaRepository.findAll());
+        return new ModelAndView("fornecedor/form_fornecedor")
+                  .addObject("listTiposOcorrencias", iTiposOcorrenciaRepository.findAll())
+                  .addObject("usuarioFornecedor", usuarioFornecedorDao.listaUsuarioFornecedor());
     }
     
     @PostMapping(PathPadrao.SALVAR)
@@ -71,6 +70,11 @@ public class FornecedorController {
     @GetMapping("/buscarFornecedorporId/{id}")
     public ResponseEntity<Fornecedor> buscarFornPorId(@PathVariable int id) {
         return new ResponseEntity<>(iFornecedorRepository.findById(id).get(),HttpStatus.OK);
+    }
+    
+    @GetMapping("/popularSelectUsuForn")
+    public ResponseEntity popularSelectUsuarioFornecedor() {
+        return new ResponseEntity<>(usuarioFornecedorDao.listaUsuarioFornecedor(),HttpStatus.OK);
     }
     
 }

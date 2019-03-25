@@ -23,6 +23,7 @@
                 <!--Cabecalho da Tabela-->  
                 <thead>
                     <tr>
+                        <th style="display: none;" >ID</th>
                         <th>Nome</th>
                         <th>CPF/CNPJ</th>
                         <th>Email</th>
@@ -39,7 +40,8 @@
                         <!--tr Linha-->
                         <tr> 
                             <!--td coluna-->
-                            <td> ${fornecedores.nome}</td> 
+                            <td id="tdIdFornecedor" style="display: none;" > ${fornecedores.id}</td>
+                            <td id="tdNomeFornecedor" > ${fornecedores.nome}</td> 
                             <td> ${fornecedores.cnpjCpf}</td>
                             <td> ${fornecedores.email}</td>
                             <td> ${fornecedores.telefone}</td>

@@ -1,6 +1,7 @@
 
 package br.com.hjsytems.hjchamados;
 
+import br.com.hjsystems.hjchamados.dao.ListaUsuarioFornecedorDao;
 import br.com.hjsystems.hjchamados.security.AppUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -19,7 +20,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
  * @author Hallef
  */
 @EnableWebSecurity
-@ComponentScan(basePackageClasses = {AppUserDetailsService.class})
+@ComponentScan(basePackageClasses = {AppUserDetailsService.class,ListaUsuarioFornecedorDao.class})
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
     
     @Autowired private UserDetailsService userDetailsService;

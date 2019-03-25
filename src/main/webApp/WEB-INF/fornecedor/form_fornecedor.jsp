@@ -18,14 +18,17 @@
                 <form data-toggle="validator" role="form" id="form-cad-fornecedor" class="form-horizontal">    
                     
                     <input type="hidden" name="id" value="${fornecedor.id}"> 
-
                     <div class="form-group">
+                        <input type="hidden"  name="nome" id="inputNome" >
                         <label for="inputNome" class="col-sm-2 control-label">Nome</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" name="nome" id="inputNome" placeholder="Nome" value="${fornecedor.nome}" required >
+                        <div class="col-sm-10" >
+                            <select id="usuarioFornecedor" class="form-control" >
+                                <c:forEach items="${usuarioFornecedor}" var="usuaforn" >
+                                    <option value="${usuaforn.idUsuario}">${usuaforn.nomeUsuario}</option>
+                                </c:forEach>
+                            </select>
                         </div>
-                    </div>
-
+                    </div>    
                     <div class="form-group">
 
                         <label  class="col-sm-2 control-label">Tipo Pessoa</label>
