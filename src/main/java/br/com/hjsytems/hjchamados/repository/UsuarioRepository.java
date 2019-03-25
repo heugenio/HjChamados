@@ -21,7 +21,5 @@ public interface UsuarioRepository extends JpaRepository<Usuarios, Integer> {
     
     @Query("select distinct p.nome from Usuarios u inner join u.grupos g inner join g.permissoes p where u = ?1")
     List<String> permissoes(Usuarios oEUsuarios);
-    
-    @Query(" select u from Usuarios u order by u.id desc ")
-    public Usuarios ultimoUsuario();
+
 }

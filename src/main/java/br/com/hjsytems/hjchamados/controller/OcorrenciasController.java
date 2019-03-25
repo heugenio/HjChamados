@@ -1,5 +1,6 @@
 package br.com.hjsytems.hjchamados.controller;
 
+import br.com.hjsystems.hjchamados.dao.ListaUsuarioFornecedorDao;
 import br.com.hjsystems.hjchamados.security.UsuarioSistema;
 import br.com.hjsystems.hjchamados.util.EnviaEmail;
 import br.com.hjsystems.hjchamados.util.PathPadrao;
@@ -44,12 +45,15 @@ public class OcorrenciasController {
     @Autowired private UnidadesEmpresariaisRepository iUnidadesEmpresariaisRepository;
     @Autowired private FornecedorRepository iFornecedorRepository;
     @Autowired private UsuarioRepository iUsuarioRepository;
+    @Autowired private ListaUsuarioFornecedorDao dao;
 
     private final String STATUS[] = {"Aberto", "Fechado"};
 
     @GetMapping
     public ModelAndView preparaEstadoInicial(@AuthenticationPrincipal UsuarioSistema usuarioSistema) {
         Usuarios oEUsuarios = iUsuarioRepository.getOne(usuarioSistema.getoEUsuarios().getId());
+        
+        dao.listaUsuarioFornecedor();
         
         if(oEUsuarios.getGrupos().size() == 1 && oEUsuarios.getGrupos().get(0).getNome().equalsIgnoreCase("Fornecedor")) {
             return new ModelAndView("ocorrencias/manutencao")
