@@ -25,19 +25,9 @@ function alteraUser(id) {
         $('#conteudo-modal').html(dados);
         
         $.get('usuario/nomeGrupo/'+id,function (dados) {
-            console.log(dados);
-            
             for(i=0;i<dados.length;i++) {
-                console.log(dados[i].codigo+" "+dados[i].nome);
                 $("#" + dados[i].nome).prop('checked', true);
             }
-            
-//            $("#listaBox input:checkbox").each(function (i) {
-//                if ((parseInt(dados[i].codigo) === parseInt(this.value)) && (dados[i].nome.toString() === this.id.toString())) {
-//                    console.log(dados[i].codigo + " " + dados[i].nome);
-//                    $("#" + this.id.toString()).prop('checked', true);
-//                }
-//            });
         });
         
     });
@@ -49,14 +39,15 @@ function  salvar() {
         
         var user = $("#form-cad-user").serializeArray();
         
-        var grupos = [];
+        grupos = [];
+        
         $('#listaBox input:checked').each(function() {
             grupos.push(parseInt(this.value));
         });
         
         if(validarUsuario()) {
         
-            $.post('usuario/salvar/'+grupos, user).done(function (retorno, status, jqxhr) { 
+            $.post('usuario/salvar/'+grupos, user).done(function (retorno, status, jqxhr) {
 
                 $('#modal-user').modal('hide');
 
@@ -64,8 +55,10 @@ function  salvar() {
                     $('#conteudo').html(dados);
                 });
 
-                if(status) {
-                    centralMensagem(TipoMsg.SALVAR, "Cadastro de usuário", "Usuário cadastrado com sucesso!");
+                if(status && retorno==="") {
+                    centralMensagem(TipoMsg.SALVAR, "Cadastro de usuário", "Salvo com sucesso!");
+                } else if(status && retorno!=="") {
+                    centralMensagem(TipoMsg.ERRO, "Cadastro de usuário", retorno);
                 }
 
             }).fail(function (retorno) {
@@ -78,34 +71,39 @@ function  salvar() {
 };
 
 function validarUsuario() {
-    
+
     $("#campoNome").html("");
     $("#campoLogin").html("");
     $("#campoEmail").html("");
     $("#campoPassword").html("");
+    $("#divGrupos").html("");
     
-    if($("#inputNome").val() === "") {
+    if($("#inputNome").val() === "" || $("#inputNome").val().length < 3) {
         $("#camposNaoPreenchidos").show();
         $("#campoNome").append('Por favor, preencha o campo nome!');
         $("#inputNome").focus();
         return false;
         
-    } else if($("#inputLogin").val() === "") {
+    } else if($("#inputLogin").val() === "" || $("#inputLogin").val().length < 3) {
         $("#camposNaoPreenchidos").show();
         $("#campoLogin").append('Por favor, preencha o campo login!');
         $("#inputLogin").focus();
         return false;
         
-    } else if($("#inputEmail3").val() === "") {
+    } else if($("#inputEmail3").val() === "" || !$("#inputEmail3").val().includes("@") || !$("#inputEmail3").val().includes(".com")) {
         $("#camposNaoPreenchidos").show();
         $("#campoLogin").append('Por favor, preencha o campo email!');
         $("#inputEmail3").focus();
         return false;
         
-    } else if($("#inputPassword3").val() === "") {
+    } else if($("#inputPassword3").val() === "" || $("#inputPassword3").val().length < 4) {
         $("#camposNaoPreenchidos").show();
         $("#campoPassword").append('Por favor, preencha o campo password!');
         $("#inputPassword3").focus();
+        return false;
+    } else if(grupos.length === 0) {
+        $("#camposNaoPreenchidos").show();
+        $("#divGrupos").append("É necessário selecionar um grupo");
         return false;
     }
     $("#camposNaoPreenchidos").hide();

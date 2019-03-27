@@ -1,14 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package br.com.hjsytems.hjchamados.controller;
 
+import br.com.hjsystems.hjchamados.dao.ConsultaEntidadeDao;
+import br.com.hjsystems.hjchamados.util.SITUACAO;
 import br.com.hjsytems.hjchamados.entity.TiposOcorrencia;
-import java.util.List;
 import br.com.hjsytems.hjchamados.repository.TiposOcorrenciaRepository;
-import java.util.ArrayList;
 import java.util.Optional;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,8 +28,8 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/tiposocorrencia")
 public class tiposOcorrenciaController {
 
-    @Autowired private TiposOcorrenciaRepository tiposocorrencia;
-    
+    @Autowired private TiposOcorrenciaRepository iTiposOcorrenciaRepository;
+    @Autowired private ConsultaEntidadeDao dao;
 
     @GetMapping
     public ModelAndView abrir() {
@@ -43,7 +39,7 @@ public class tiposOcorrenciaController {
     @GetMapping(value = {"/lista", "/lista/{descricao}"})
     public ModelAndView listaTiposOcorrencia(@PathVariable Optional<String> descricao) {
         return new ModelAndView("tiposocorrencia/lista_tiposocorrencia")
-                .addObject("listaTiposOcorrencia", tiposocorrencia.findBydescricaoContaining(descricao.isPresent() == true ? descricao.get() : ""));
+                .addObject("listaTiposOcorrencia", iTiposOcorrenciaRepository.findBydescricaoContaining(descricao.isPresent() == true ? descricao.get() : ""));
     }    
 
    @GetMapping("/novo")
@@ -54,16 +50,33 @@ public class tiposOcorrenciaController {
     @GetMapping("/alterar/{id}")
     public ModelAndView alterar(@PathVariable int id) {
         return new ModelAndView("tiposocorrencia/form_tiposocorrencia")
-                .addObject("tiposocorrencia", tiposocorrencia.getOne(id));
+                .addObject("tiposocorrencia", iTiposOcorrenciaRepository.getOne(id));
     }
 
     @PostMapping("/salvar")
+    @SuppressWarnings("CallToPrintStackTrace")
     public ResponseEntity<String> salvar(@Valid @ModelAttribute TiposOcorrencia tiposocorrencia, BindingResult bindingResult) {
+        String msgRetorno = "";
         if (bindingResult.hasErrors()) {
             return new ResponseEntity<>("", HttpStatus.BAD_REQUEST);
         }
-        this.tiposocorrencia.save(tiposocorrencia);
-        return new ResponseEntity<>("", HttpStatus.OK);
+        
+        try {
+            
+            
+            if(dao.consultaEntidade(tiposocorrencia) == SITUACAO.NOVO_REGISTRO) {
+                iTiposOcorrenciaRepository.save(tiposocorrencia);
+            } else if(dao.consultaEntidade(tiposocorrencia) == SITUACAO.MESMO_REGISTRO) {
+                msgRetorno = "Este Tipo de Ocorrência ja foi cadastrada!";
+            } else if(dao.consultaEntidade(tiposocorrencia) == SITUACAO.SEM_ALTERACAO){
+                msgRetorno = "Operação inválida!";
+            }
+            
+        } catch(IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
+        return new ResponseEntity<>(msgRetorno, HttpStatus.OK);
     }
 }
 

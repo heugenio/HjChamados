@@ -35,7 +35,7 @@ var int_botoes_tiposocorrencia = function () {
         
             var user = $("#form-cad-tiposocorrencia").serialize();
             
-            $.post('tiposocorrencia/salvar', user).done(function (retono, status, jqxhr) {
+            $.post('tiposocorrencia/salvar', user).done(function (retorno, status, jqxhr) {
                 
                 $('#modal-tiposOcorrencia').modal('hide');
                 
@@ -43,8 +43,10 @@ var int_botoes_tiposocorrencia = function () {
                     $('#conteudo').html(dados);
                 });
                 
-                if(status) {
-                    centralMensagem(TipoMsg.SALVAR, "Cadastro de Tipo de ocorrência", "Tipo de ocorrência cadastrado com sucesso!");
+                if(status && retorno==="") {
+                    centralMensagem(TipoMsg.SALVAR, "Cadastro de Tipo de ocorrência", "Salvo com sucesso!");
+                } else if(status && retorno!=="") {
+                    centralMensagem(TipoMsg.ERRO, "Cadastro de Tipo de ocorrência", retorno);
                 }
                 
             }).fail(function (retono) {

@@ -23,7 +23,6 @@
                 <!--Cabecalho da Tabela-->  
                 <thead>
                     <tr>
-                        <th style="display: none;" >ID</th>
                         <th>Nome</th>
                         <th>CPF/CNPJ</th>
                         <th>Email</th>
@@ -40,15 +39,14 @@
                         <!--tr Linha-->
                         <tr> 
                             <!--td coluna-->
-                            <td id="tdIdFornecedor" style="display: none;" > ${fornecedores.id}</td>
-                            <td id="tdNomeFornecedor" > ${fornecedores.nome}</td> 
+                            <td> ${fornecedores.nome}</td> 
                             <td> ${fornecedores.cnpjCpf}</td>
                             <td> ${fornecedores.email}</td>
                             <td> ${fornecedores.telefone}</td>
                             <td> ${fornecedores.celular}</td>
                             <td> ${fornecedores.emailAux}</td>
                             <td style="text-align: center"> 
-                                <a href="#" data-toggle="tooltip" title="Clique para editar" onclick="alteraFornecedor(${fornecedores.id})">
+                                <a href="#" data-toggle="tooltip" title="Clique para editar" onclick="alteraFornecedor(${fornecedores.id},'${fornecedores.nome}')">
                                     <i class="glyphicon glyphicon-pencil"></i>                                 
                                 </a>
                             </td>  

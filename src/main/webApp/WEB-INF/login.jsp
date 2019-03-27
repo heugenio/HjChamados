@@ -95,10 +95,21 @@
                 margin: 100px auto;
             }
         </style>
+        
+        <script>
+            function onload() {
+                $("#user").focus();
+            }
+//            $(document).ready(function () {
+//                $("#user").focus();
+//            }
+        </script>
 
     </head>
 
-    <body>
+    <body onload="onload();">
+        
+    
         <!-- Modal HTML -->
         <div id="telaLogin" class="modal fade" data-backdrop="static">
             <div class="modal-dialog modal-login">
@@ -111,7 +122,7 @@
                         <form method="POST" action="login">
                             <div class="form-group">
                                 <i class="glyphicon glyphicon-user"></i>
-                                <input type="text" name="username" class="form-control" placeholder="Usuario" required="required">
+                                <input type="text" id="user" name="username" class="form-control" placeholder="Usuario" required="required">
                             </div>
                             <div class="form-group">
                                 <i class="glyphicon glyphicon-lock"></i>
@@ -124,7 +135,8 @@
 
                     </div>
                     <div class="modal-footer">
-                        <a href="#">Esqueceu a senha?</a>
+                        <label></label>
+                        <!--<a href="#">Esqueceu a senha?</a>-->
                     </div>
                 </div>
             </div>

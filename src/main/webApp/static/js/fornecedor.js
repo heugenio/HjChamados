@@ -53,7 +53,7 @@ function changeCampoCpfCnpj(idBtnRadio) {
     }
 }
 
-function alteraFornecedor(id) {
+function alteraFornecedor(id,nomeFornecedorGrid) {
     $('#modal-fornecedor').modal('show');
     $.get('fornecedor/alterar/' + id, function (dados) {
         $('#conteudo-modal').html(dados);
@@ -74,7 +74,7 @@ function alteraFornecedor(id) {
         });
         
         
-        popularSelectUsuarioFornecedor();
+        popularSelectUsuarioFornecedor(nomeFornecedorGrid);
         
     });
 }
@@ -225,18 +225,21 @@ function removerTipoOcorrencia() {
 }
 
 
-function popularSelectUsuarioFornecedor() {
-    var nomeForn = $("#tdNomeFornecedor").text();
-    //var idForn = $("#tdIdFornecedor").text();
+function popularSelectUsuarioFornecedor(nomeFornecedorGrid) {
+
+    var nomeFornecedorQueEstaNaLista = "";
+    
+    console.log(nomeFornecedorGrid);
 
     $.get('fornecedor/popularSelectUsuForn', function (listaTipoOcorrencia) {
         var selectbox = $('#usuarioFornecedor');
         if (listaTipoOcorrencia !== null && listaTipoOcorrencia.length > 0) {
             selectbox.find('option').remove();
-            $('<option>').text(nomeForn).appendTo(selectbox);//.val(idForn)
+            $('<option>').text(nomeFornecedorGrid).appendTo(selectbox);//.val(idForn)
             $.each(listaTipoOcorrencia, function (i, d) {
-                if(!nomeForn.includes(d.nomeUsuario.toString())) {//parseInt(idForn)!==parseInt(parseInt(d.idUsuario))) && 
-                    $('<option>').val(d.idUsuario).text(d.nomeUsuario).appendTo(selectbox);
+                nomeFornecedorQueEstaNaLista = d.nomeUsuario;
+                if(!nomeFornecedorGrid.includes(d.nomeUsuario.toString())) {//parseInt(idForn)!==parseInt(parseInt(d.idUsuario))) && 
+                    $('<option>').text(nomeFornecedorQueEstaNaLista.toString().trim()).appendTo(selectbox);//.val(d.idUsuario)
                 }
             });
             selectbox.removeAttr("disabled");
