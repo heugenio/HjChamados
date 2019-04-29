@@ -69,33 +69,18 @@ public class UsuariosController {
     @PostMapping("/salvar/{id}")
     public ResponseEntity<String> salvar(@Valid @ModelAttribute Usuarios oEUsuarios,@PathVariable Integer[] id, BindingResult bindingResult) {
         String msgRetorno = "";
-        try {
-            List<Grupo> grupos = new LinkedList<>();
-            Grupo oEGrupo;
-
-            for (Integer ids : id) {
-                oEGrupo = new Grupo();
-                oEGrupo.setCodigo(Long.valueOf(ids));
-                grupos.add(oEGrupo);
-            }
-
-            oEUsuarios.setGrupos(grupos);
-
-            if (bindingResult.hasErrors()) {
-                return new ResponseEntity<>("", HttpStatus.BAD_REQUEST);
-            }
-            
-            if(dao.consultaEntidade(oEUsuarios) == SITUACAO.NOVO_REGISTRO) {
-                usuarios.save(oEUsuarios);
-            } else if(dao.consultaEntidade(oEUsuarios) == SITUACAO.MESMO_REGISTRO) {
-                msgRetorno = "Este Tipo de Ocorrência ja foi cadastrada!";
-            } else if(dao.consultaEntidade(oEUsuarios) == SITUACAO.SEM_ALTERACAO){
-                msgRetorno = "Operação inválida!";
-            }
-            
-        } catch (IllegalAccessException ex) {
-            Logger.getLogger(UsuariosController.class.getName()).log(Level.SEVERE, null, ex);
+        List<Grupo> grupos = new LinkedList<>();
+        Grupo oEGrupo;
+        for (Integer ids : id) {
+            oEGrupo = new Grupo();
+            oEGrupo.setCodigo(Long.valueOf(ids));
+            grupos.add(oEGrupo);
         }
+        oEUsuarios.setGrupos(grupos);
+        if (bindingResult.hasErrors()) {
+            return new ResponseEntity<>("", HttpStatus.BAD_REQUEST);
+        }
+        usuarios.save(oEUsuarios);
         return new ResponseEntity<>(msgRetorno, HttpStatus.OK);
     }
     

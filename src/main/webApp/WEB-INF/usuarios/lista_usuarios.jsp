@@ -10,14 +10,14 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <script>
-    $(document).ready(function() {
-      $('[data-toggle="tooltip"]').tooltip(); 
+    $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip();
     });
 </script>
 
 <div class="col-xs-12 col-sm-12 col-md-12">
-    <div style="margin-top: 9px" class="table-responsive" >
-        <table class="table table-bordered table-condensed table-hover">
+    <div class=" mt-20">
+        <table class="table table-bordered table-condensed table-hover" id="tabelaUsuarios" width="100%">
             <!--Cabecalho da Tabela-->  
             <thead>
                 <tr>

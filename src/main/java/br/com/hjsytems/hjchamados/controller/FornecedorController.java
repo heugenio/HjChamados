@@ -1,10 +1,12 @@
 package br.com.hjsytems.hjchamados.controller;
 
-import br.com.hjsystems.hjchamados.dao.ListaUsuarioFornecedorDao;
 import br.com.hjsystems.hjchamados.util.PathPadrao;
 import br.com.hjsytems.hjchamados.entity.Fornecedor;
+import br.com.hjsytems.hjchamados.entity.TiposOcorrencia;
 import br.com.hjsytems.hjchamados.repository.FornecedorRepository;
 import br.com.hjsytems.hjchamados.repository.TiposOcorrenciaRepository;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +31,6 @@ public class FornecedorController {
 
     @Autowired private FornecedorRepository iFornecedorRepository;
     @Autowired private TiposOcorrenciaRepository iTiposOcorrenciaRepository;
-    @Autowired private ListaUsuarioFornecedorDao usuarioFornecedorDao;
     
     @GetMapping
     public ModelAndView abrir() {
@@ -39,16 +40,20 @@ public class FornecedorController {
     @GetMapping(PathPadrao.NOVO)
     public ModelAndView novo() {
         return new ModelAndView("fornecedor/form_fornecedor")
-                  .addObject("listTiposOcorrencias", iTiposOcorrenciaRepository.findAll())
-                  .addObject("usuarioFornecedor", usuarioFornecedorDao.listaUsuarioFornecedor());
+                  .addObject("listTiposOcorrencias", iTiposOcorrenciaRepository.findAll());
     }
     
-    @PostMapping(PathPadrao.SALVAR)
-    public ResponseEntity<String> salvar(@Valid @ModelAttribute Fornecedor fornecedor, BindingResult bindingResult) {
+    @PostMapping(PathPadrao.SALVAR+"/{tipos}")
+    public ResponseEntity<String> salvar(@Valid @ModelAttribute Fornecedor fornecedor,@PathVariable TiposOcorrencia[] tipos, BindingResult bindingResult) {
         
         if (bindingResult.hasErrors()) {
             return new ResponseEntity<>("", HttpStatus.BAD_REQUEST);
         }
+        List<TiposOcorrencia> listaTipos = new ArrayList<>();
+        for(TiposOcorrencia tipo : tipos){
+            listaTipos.add(tipo);
+        }
+        fornecedor.setListTiposOcorrencias(listaTipos);
         iFornecedorRepository.save(fornecedor);
         return new ResponseEntity<>("", HttpStatus.OK);
     }
@@ -74,7 +79,7 @@ public class FornecedorController {
     
     @GetMapping("/popularSelectUsuForn")
     public ResponseEntity popularSelectUsuarioFornecedor() {
-        return new ResponseEntity<>(usuarioFornecedorDao.listaUsuarioFornecedor(),HttpStatus.OK);
+        return new ResponseEntity<>(null, HttpStatus.OK);
     }
     
 }

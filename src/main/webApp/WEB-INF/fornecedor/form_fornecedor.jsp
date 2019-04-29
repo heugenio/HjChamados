@@ -19,14 +19,9 @@
                     
                     <input type="hidden" name="id" value="${fornecedor.id}"> 
                     <div class="form-group">
-                        <input type="hidden"  name="nome" id="inputNome" >
                         <label for="inputNome" class="col-sm-2 control-label">Nome</label>
                         <div class="col-sm-10" >
-                            <select id="usuarioFornecedor" class="form-control" >
-                                <c:forEach items="${usuarioFornecedor}" var="usuaforn" >
-                                    <option value="${usuaforn.idUsuario}">${usuaforn.nomeUsuario}</option>
-                                </c:forEach>
-                            </select>
+                            <input type="text" id="nome" name="nome" class="form-control" value="${fornecedor.nome}" required="">
                         </div>
                     </div>    
                     <div class="form-group">

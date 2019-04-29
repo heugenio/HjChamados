@@ -6,6 +6,7 @@ $(document).ready(function () {
         var param = $('#input-user').val();
         $.get('usuario/lista/' + param, function (dados) {
             $('#conteudo').html(dados);
+            initDataTable();
         });
     });
 
@@ -53,6 +54,7 @@ function  salvar() {
 
                 $.get('usuario/lista/', function (dados) {
                     $('#conteudo').html(dados);
+                    initDataTable();
                 });
 
                 if(status && retorno==="") {
@@ -110,3 +112,9 @@ function validarUsuario() {
     return true;
 }
 
+var initDataTable = function (){
+    $('#tabelaUsuarios').DataTable( {
+        destroy: true,
+        language:languagePtBr
+    });
+}

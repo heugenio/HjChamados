@@ -57,7 +57,7 @@ public class Usuarios implements Serializable{
     
     
     @ManyToMany
-    @JoinTable(name = "usuario_grupo", joinColumns = @JoinColumn(name = "codigo_usuario"), inverseJoinColumns = @JoinColumn(name = "codigo_grupo"))
+    @JoinTable(name = "USUARIO_GRUPO", joinColumns = @JoinColumn(name = "CODI_USUARIO"), inverseJoinColumns = @JoinColumn(name = "CODI_GRUPO"))
     private List<Grupo> grupos;
     
     public Usuarios() {

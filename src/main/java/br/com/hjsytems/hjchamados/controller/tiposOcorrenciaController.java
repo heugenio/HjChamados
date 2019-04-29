@@ -60,10 +60,7 @@ public class tiposOcorrenciaController {
         if (bindingResult.hasErrors()) {
             return new ResponseEntity<>("", HttpStatus.BAD_REQUEST);
         }
-        
         try {
-            
-            
             if(dao.consultaEntidade(tiposocorrencia) == SITUACAO.NOVO_REGISTRO) {
                 iTiposOcorrenciaRepository.save(tiposocorrencia);
             } else if(dao.consultaEntidade(tiposocorrencia) == SITUACAO.MESMO_REGISTRO) {
@@ -71,11 +68,9 @@ public class tiposOcorrenciaController {
             } else if(dao.consultaEntidade(tiposocorrencia) == SITUACAO.SEM_ALTERACAO){
                 msgRetorno = "Operação inválida!";
             }
-            
         } catch(IllegalAccessException e) {
             e.printStackTrace();
         }
-
         return new ResponseEntity<>(msgRetorno, HttpStatus.OK);
     }
 }

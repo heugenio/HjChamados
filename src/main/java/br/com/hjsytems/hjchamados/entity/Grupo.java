@@ -33,8 +33,8 @@ public class Grupo implements Serializable {
     
     @Column(name = "GPRO_PERMISSOES")
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "grupo_permissao", joinColumns = @JoinColumn(name = "codigo_grupo"), 
-                                  inverseJoinColumns = @JoinColumn(name = "codigo_permissao"))
+    @JoinTable(name = "GRUPO_PERMISSAO", joinColumns = @JoinColumn(name = "CODI_GRUPO"), 
+                                  inverseJoinColumns = @JoinColumn(name = "CODI_PERMISSAO"))
     private List<Permissao> permissoes;
     
     

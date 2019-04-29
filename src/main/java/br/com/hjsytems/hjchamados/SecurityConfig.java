@@ -44,7 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
             .antMatchers("/usuario").hasRole("CADASTRAR_USUARIO")
             .antMatchers("/tiposocorrencia").hasRole("CADASTRAR_TIPO_OCORRENCIA")
             .antMatchers("/fornecedor").hasRole("CADASTRAR_FORNECEDOR")
-            .antMatchers("/ocorrencias").hasRole("CADASTRAR_OCORRENCIA")
+            .antMatchers("/ocorrencias").hasRole("FORNECEDOR")
             .anyRequest().authenticated()
             .and().formLogin().loginPage("/login").permitAll()
                 .and()

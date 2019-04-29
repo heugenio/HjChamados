@@ -47,6 +47,7 @@
                 <div class="col-sm-10">
                     <select class="form-control" name="unidadeEmpresarial">
                         <c:forEach items="${listaUnidades}" var="unidade">
+                            <option selected="" disabled="">Selecione uma unidade</option>
                             <option value="${unidade.id}" <c:if test="${usuario.unidadeEmpresarial eq unidade}"> selected="" </c:if>  > ${unidade.nome} </option>                            
                         </c:forEach>
                     </select>

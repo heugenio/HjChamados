@@ -40,8 +40,6 @@ private static final long SerialVersionUID = 1L;
     private String nome;
     
     @Column(name = "FRNC_CNPJCPF")
-    @NotNull
-    @Basic(optional = false)
     private String cnpjCpf;
 
     @Column(name = "FRNC_EMAIL")

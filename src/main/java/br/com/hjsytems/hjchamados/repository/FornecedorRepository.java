@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface FornecedorRepository extends JpaRepository<Fornecedor, Integer> {
+    
     List<Fornecedor> findByNomeContaining(String nome);
     
     

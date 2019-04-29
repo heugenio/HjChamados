@@ -3,7 +3,6 @@ package br.com.hjsystems.hjchamados.dao;
 
 import br.com.hjsystems.hjchamados.util.ConsultaDeEntidade;
 import br.com.hjsystems.hjchamados.util.SITUACAO;
-import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;

@@ -18,8 +18,8 @@
     </script>
 
     <div class="col-xs-12 col-sm-12 col-md-12">
-        <div style="margin-top: 9px" class="table-responsive" >
-            <table class="table table-bordered table-condensed table-hover">
+        <div class="mt-20" >
+            <table class="table table-bordered table-condensed table-hover" id="tabelaFornecedor">
                 <!--Cabecalho da Tabela-->  
                 <thead>
                     <tr>

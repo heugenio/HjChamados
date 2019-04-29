@@ -7,6 +7,7 @@ $(document).ready(function () {
         var param = $('#input-tiposOcorrencia').val();
         $.get('tiposocorrencia/lista/' + param, function (dados) {
             $('#conteudo').html(dados);
+            initDataTable();
         });
     });
 
@@ -41,6 +42,7 @@ var int_botoes_tiposocorrencia = function () {
                 
                 $.get('tiposocorrencia/lista/', function (dados) {
                     $('#conteudo').html(dados);
+                    initDataTable();
                 });
                 
                 if(status && retorno==="") {
@@ -77,4 +79,11 @@ function validarTipoOcorrencia() {
     }
     $("#camposNaoPreenchidos").hide();
     return true;
+}
+
+var initDataTable = function (){
+    $('#tabelaTiposOcorrencia').DataTable( {
+        destroy: true,
+        language:languagePtBr
+    });
 }

@@ -18,7 +18,7 @@
 
 <div class="col-xs-12 col-sm-12 col-md-12">
     <div style="margin-top: 9px" class="table-responsive" >
-        <table class="table table-bordered table-condensed table-hover">
+        <table class="table table-bordered table-condensed table-hover" id="tabelaTiposOcorrencia">
             <!--Cabecalho da Tabela-->  
             <thead>
                 <tr>

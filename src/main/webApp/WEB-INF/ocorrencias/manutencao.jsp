@@ -35,7 +35,7 @@
                     <strong>Manutenção de Ocorrências</strong> 
                 </div> 
                 <div class="col-xs-12 col-sm-12 col-md-6">
-                    <sec:authorize access="hasRole('CADASTRAR_USUARIO')">
+                    <sec:authorize access="hasRole('CADASTRAR_OCORRENCIA')">
                         <button id="btn-adcionar" class="btn btn-default pull-right btn-sm">Adicionar</button>
                     </sec:authorize>
                 </div>                 

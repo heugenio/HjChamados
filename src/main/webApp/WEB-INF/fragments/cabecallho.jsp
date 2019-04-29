@@ -29,41 +29,43 @@
         <link href="${path}/static/css_gif_ajax/css_gif_ajax.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
-        <div class="">
-            <nav class="navbar navbar-default">
-                <div class="navbar-header">
-                    <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".js-navbar-collapse">
-                        <span class="sr-only">Alternar Navegação</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="brand" href=${path}><img class="logo" src="${path}/static/imagens/sys200.png" width="100" alt="SysWeb Conferência"></a>
-                </div>
-                <div class="collapse navbar-collapse js-navbar-collapse">
-                    <ul class="nav navbar-nav">
-                        <li class="dropdown mega-dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Ocorrências<span class="caret"></span></a>	
-                            <ul class="dropdown-menu mega-dropdown-menu">
-                                <li class="col-sm-3">
-                                    <ul>
-                                        <li class="dropdown-header">Ocorrências</li>
-                                        <li><a href="${path}/ocorrencias">Ocorrências</a></li>
-                                    </ul>
-                                </li>
-                                <li class="col-sm-3">
-                                    <ul>
-                                        <li class="dropdown-header">Cadastros</li>
-                                        <li><a href="${path}/usuario">Usuarios</a></li>
-                                        <li><a href="${path}/tiposocorrencia">Tipos Ocorrência</a></li>
-                                        <li><a href="${path}/fornecedor">Fornecedores</a></li>
-                                        
-                                    </ul>
-                                </li>
-                            </ul>	
-                        </li>
-                        <li><a href="${path}/logout">Sair</a></li>
-                    </ul>	
-                </div><!-- /.nav-collapse -->
-            </nav>
+        <div class="container">
+            <div class="row"> 
+                <nav class="navbar navbar-default">
+                    <div class="navbar-header" style="margin-left: 20px;">
+                        <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".js-navbar-collapse">
+                            <span class="sr-only">Alternar Navegação</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="brand" href=${path}><img class="logo" src="${path}/static/imagens/sys200.png" width="100" alt="SysWeb Conferência"></a>
+                    </div>
+                    <div class="collapse navbar-collapse js-navbar-collapse">
+                        <ul class="nav navbar-nav">
+                            <li class="dropdown mega-dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Ocorrências<span class="caret"></span></a>	
+                                <ul class="dropdown-menu mega-dropdown-menu">
+                                    <li class="col-sm-3">
+                                        <ul>
+                                            <li class="dropdown-header">Ocorrências</li>
+                                            <li><a href="${path}/ocorrencias">Ocorrências</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="col-sm-3">
+                                        <ul>
+                                            <li class="dropdown-header">Cadastros</li>
+                                            <li><a href="${path}/usuario">Usuarios</a></li>
+                                            <li><a href="${path}/tiposocorrencia">Tipos Ocorrência</a></li>
+                                            <li><a href="${path}/fornecedor">Fornecedores</a></li>
+
+                                        </ul>
+                                    </li>
+                                </ul>	
+                            </li>
+                            <li><a href="${path}/logout">Sair</a></li>
+                        </ul>	
+                    </div><!-- /.nav-collapse -->
+                </nav>
+            </div>
         </div> 
